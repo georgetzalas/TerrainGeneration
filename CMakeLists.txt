@@ -6,6 +6,7 @@ add_subdirectory(vendors/glfw)
 add_executable(TerrainGeneration
     main.cpp
     src/core/window.cpp
+    src/core/input.cpp
     vendors/glad/glad.c
 )
 
