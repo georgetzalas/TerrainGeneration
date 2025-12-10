@@ -1,0 +1,6 @@
+[submodule "TerrainGeneration/vendors"]
+	path = TerrainGeneration/vendors
+	url = https://github.com/glfw/glfw
+[submodule "vendors/glfw"]
+	path = vendors/glfw
+	url = https://github.com/glfw/glfw
