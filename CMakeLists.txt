@@ -7,6 +7,7 @@ add_executable(TerrainGeneration
     main.cpp
     src/core/window.cpp
     src/core/input.cpp
+    src/world/terrain.cpp
     vendors/glad/glad.c
 )
 
