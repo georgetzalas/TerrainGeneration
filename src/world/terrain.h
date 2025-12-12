@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <vector>
 #include <utils/types.h>
+#include <generator/perlin.h>
 
 namespace World
 {

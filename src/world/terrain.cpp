@@ -13,15 +13,19 @@ World::Terrain::~Terrain()
 void World::Terrain::GenerateTerrain()
 {
     terrain.clear();
+    Generator::PerlinNoise perlin(width, depth, 32.0f, 8, 5342);
+    perlin.GeneratePerlinNoise();
 
     for(int z=0; z<depth; z++)
     {
         for(int x=0; x<width; x++)
         {
             Vertex v;
+
             v.x = x;
-            v.y = 0.0f;
+            v.y = perlin.GetHeight(x, z);
             v.z = z;
+
             terrain.push_back(v);
         } 
     }

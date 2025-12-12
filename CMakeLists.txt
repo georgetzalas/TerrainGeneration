@@ -8,9 +8,11 @@ add_executable(TerrainGeneration
     src/core/window.cpp
     src/core/input.cpp
     src/world/terrain.cpp
+    src/generator/perlin.cpp
     vendors/glad/glad.c
 )
 
 target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors)
 target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors/glad/include)
 target_link_libraries(TerrainGeneration PRIVATE glfw)
