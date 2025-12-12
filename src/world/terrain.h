@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+#include <utils/types.h>
 
 namespace World
 {
@@ -16,6 +18,6 @@ namespace World
         uint32_t width;
         uint32_t depth;
 
-        unsigned char* terrainData;
+        std::vector<Vertex> terrain;
     };
 };
