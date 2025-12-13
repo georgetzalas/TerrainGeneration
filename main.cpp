@@ -10,6 +10,7 @@ int main()
 
     World::Terrain terrain(256, 256);
     terrain.GenerateTerrain();
+    //terrain.PrintTerrainValues();
 
     while(Core::Window::GetInstance()->IsOpen())
     {

@@ -8,17 +8,34 @@ namespace Generator
     class PerlinNoise : public HeightMap
     {
     public:
-        PerlinNoise(int width, int depth, double frequency, int octaves, uint32_t seed);
+        PerlinNoise() = default;
+        PerlinNoise(uint32_t width, uint32_t depth, double frequency, int octaves, uint32_t seed);
         ~PerlinNoise();
+
         float GetHeight(int x, int z) override;
         void GeneratePerlinNoise();
+
+        double GetFrequency() const;
+        void SetFrequency(double frequency);
+
+        int GetOctaves() const;
+        void SetOctaves(int octaves);
+
+        uint32_t GetSeed() const;
+        void SetSeed(uint32_t seed);
+
+        uint32_t GetWidth() const;
+        void SetWidth(uint32_t width);
+
+        uint32_t GetDepth() const;
+        void SetDepth(uint32_t depth);
 
     private:
         double frequency;
         int octaves;
         uint32_t seed;
-        int width;
-        int depth;
+        uint32_t width;
+        uint32_t depth;
         std::vector<float> heights;
     };
 };
