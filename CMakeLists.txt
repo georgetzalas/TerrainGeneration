@@ -12,6 +12,7 @@ add_executable(TerrainGeneration
     src/generator/perlin.cpp
     src/gfx/opengl/renderer.cpp
     src/gfx/opengl/types/shader.cpp
+    src/gfx/opengl/types/buffer.cpp
     src/utils/util.cpp
     vendors/glad/glad.c
 )
