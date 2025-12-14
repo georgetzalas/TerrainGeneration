@@ -9,6 +9,7 @@ add_executable(TerrainGeneration
     src/core/window.cpp
     src/core/input.cpp
     src/world/terrain.cpp
+    src/world/camera.cpp
     src/generator/perlin.cpp
     src/gfx/opengl/renderer.cpp
     src/gfx/opengl/types/shader.cpp

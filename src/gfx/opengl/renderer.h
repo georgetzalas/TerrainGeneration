@@ -1,5 +1,8 @@
 #pragma once
 
+#include <gfx/opengl/types/shader.h>
+#include <gfx/opengl/types/buffer.h>
+
 namespace Gfx
 {
 namespace OpenGL
@@ -11,7 +14,7 @@ namespace OpenGL
 
         void Init();
         void Destroy();
-        void Render();
+        void Render(Shader*, Buffer*);
 
     private:
         Renderer();

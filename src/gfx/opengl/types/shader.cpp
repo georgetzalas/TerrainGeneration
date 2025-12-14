@@ -1,26 +1,26 @@
 #include <gfx/opengl/types/shader.h>
 
-Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
+Gfx::OpenGL::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
 	this->name = Utils::getFileNameFromPath(vertexPath);
 
 	this->vertexPath = vertexPath; 
 	this->fragmentPath = fragmentPath; 
 
-	compileShader();
+	CompileShader();
 }
 
-Shader::~Shader()
+Gfx::OpenGL::Shader::~Shader()
 {
     glDeleteShader(id);
 }
 
-void Shader::use()
+void Gfx::OpenGL::Shader::Use()
 {
     glUseProgram(id);
 }
 
-void Shader::compileShader()
+void Gfx::OpenGL::Shader::CompileShader()
 {
     int  success;
     char infoLog[512];
@@ -74,65 +74,67 @@ void Shader::compileShader()
     glDeleteShader(fragmentShader);
 }
 
-void Shader::setBool(const std::string& name, bool value)
+void Gfx::OpenGL::Shader::SetBool(const std::string& name, bool value)
 {
     glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
-void Shader::setInt(const std::string& name, int value)
+
+void Gfx::OpenGL::Shader::SetInt(const std::string& name, int value)
 {
     glUniform1i(glGetUniformLocation(id, name.c_str()), value);
 }
-void Shader::setFloat(const std::string& name, float value)
+
+void Gfx::OpenGL::Shader::SetFloat(const std::string& name, float value)
 {
     glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
 
-void Shader::setMatrix44f(const std::string& name, glm::mat4 value)
+void Gfx::OpenGL::Shader::SetMatrix44f(const std::string& name, glm::mat4 value)
 {
     glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void Shader::setVec2f(const std::string& name, float x, float y)
+void Gfx::OpenGL::Shader::SetVec2f(const std::string& name, float x, float y)
 {
     glUniform2f(glGetUniformLocation(id, name.c_str()), x, y);
 }
 
-void Shader::setVec2f(const std::string& name, glm::vec2 value)
+void Gfx::OpenGL::Shader::SetVec2f(const std::string& name, glm::vec2 value)
 {
     glUniform2f(glGetUniformLocation(id, name.c_str()), value.x, value.y);
 }
 
-void Shader::setVec3f(const std::string& name, float x, float y, float z)
+void Gfx::OpenGL::Shader::SetVec3f(const std::string& name, float x, float y, float z)
 {
     glUniform3f(glGetUniformLocation(id, name.c_str()), x, y, z);
 }
 
-void Shader::setVec3f(const std::string& name, glm::vec3 value)
+void Gfx::OpenGL::Shader::SetVec3f(const std::string& name, glm::vec3 value)
 {
     glUniform3f(glGetUniformLocation(id, name.c_str()), value.x, value.y, value.z);
 }
 
-void Shader::setVec4f(const std::string& name, float x, float y, float z, float w)
+void Gfx::OpenGL::Shader::SetVec4f(const std::string& name, float x, float y, float z, float w)
 {
     glUniform4f(glGetUniformLocation(id, name.c_str()), x, y, z, w);
 }
 
-void Shader::setVec4f(const std::string& name, glm::vec4 value)
+void Gfx::OpenGL::Shader::SetVec4f(const std::string& name, glm::vec4 value)
 {
     glUniform4f(glGetUniformLocation(id, name.c_str()), value.x, value.y, value.z, value.w);
 }
 
-std::string Shader::getName()
+std::string Gfx::OpenGL::Shader::GetName()
 {
 	return this->name;
 }
 
-std::string Shader::getVertexPath()
+std::string Gfx::OpenGL::Shader::GetVertexPath()
 {
 	return vertexPath;
 }
 
-std::string Shader::getFragmentPath()
+std::string Gfx::OpenGL::Shader::GetFragmentPath()
 {
 	return fragmentPath;
 }

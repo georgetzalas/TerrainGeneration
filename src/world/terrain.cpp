@@ -4,11 +4,17 @@ World::Terrain::Terrain(uint32_t width, uint32_t depth)
 {
     this->width       = width;
     this->depth       = depth;
+
+    shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
+    buffer            = new Gfx::OpenGL::Buffer();
+    camera            = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 
 World::Terrain::~Terrain()
 {
-
+    delete shader;
+    delete buffer;
+    delete camera;
 }
 
 void World::Terrain::GenerateTerrain()
@@ -19,7 +25,7 @@ void World::Terrain::GenerateTerrain()
     perlin.SetDepth(depth);
     perlin.SetFrequency(32.0f);
     perlin.SetOctaves(8);
-    perlin.SetSeed(5324);
+    perlin.SetSeed(2004);
     perlin.GeneratePerlinNoise();
 
     for(int z=0; z<depth; z++)
@@ -29,17 +35,51 @@ void World::Terrain::GenerateTerrain()
             Vertex v;
 
             v.x = x;
-            v.y = perlin.GetHeight(x, z);
+            v.y = perlin.GetHeight(x, z) * 16.0f;
             v.z = z;
 
             terrain.push_back(v);
         } 
     }
+
+    buffer->FillBuffer(sizeof(Vertex) * terrain.size(), terrain, width, depth);
 }
 
-void World::Terrain::RenderTerrain()
+void World::Terrain::Update()
 {
-    //GFX::OpenGL::Render(terrainData);
+    projection = glm::perspective(45.0f, Core::Window::GetInstance()->GetWidth()/(float)Core::Window::GetInstance()->GetHeight(), 0.1f, 1000.0f);
+    view       = camera->getViewMatrix();
+
+
+    if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_W))
+    {
+        camera->processKeyboard(Direction::FORWARD);
+    }
+
+    if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_S))
+    {
+        camera->processKeyboard(Direction::BACK);
+    }
+
+    if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_A))
+    {
+        camera->processKeyboard(Direction::LEFT);
+    }
+
+    if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_D))
+    {
+        camera->processKeyboard(Direction::RIGHT);
+    }
+
+    camera->processMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
+}
+
+void World::Terrain::Render()
+{
+    shader->Use();
+    shader->SetMatrix44f("view", view);
+    shader->SetMatrix44f("projection", projection);
+    Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
 }
 
 uint32_t World::Terrain::GetWidth() const
