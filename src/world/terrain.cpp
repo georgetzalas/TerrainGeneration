@@ -8,6 +8,8 @@ World::Terrain::Terrain(uint32_t width, uint32_t depth)
     shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
     buffer            = new Gfx::OpenGL::Buffer();
     camera            = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+    renderMode        = Gfx::OpenGL::Mode::FILL;
 }
 
 World::Terrain::~Terrain()
@@ -71,6 +73,16 @@ void World::Terrain::Update()
         camera->processKeyboard(Direction::RIGHT);
     }
 
+    if(Core::Input::GetInstance()->IsKeyboardKeyPressed(GLFW_KEY_O))
+    {
+        renderMode = Gfx::OpenGL::Mode::FILL;
+    }
+
+    if(Core::Input::GetInstance()->IsKeyboardKeyPressed(GLFW_KEY_P))
+    {
+        renderMode = Gfx::OpenGL::Mode::LINE;
+    }
+
     camera->processMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
 }
 
@@ -79,6 +91,7 @@ void World::Terrain::Render()
     shader->Use();
     shader->SetMatrix44f("view", view);
     shader->SetMatrix44f("projection", projection);
+    Gfx::OpenGL::Renderer::GetInstance()->SetMode(renderMode);
     Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
 }
 

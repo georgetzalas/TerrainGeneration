@@ -38,6 +38,7 @@ namespace World
         Generator::PerlinNoise perlin;
         Gfx::OpenGL::Buffer* buffer;
         Gfx::OpenGL::Shader* shader;
+        Gfx::OpenGL::Mode    renderMode;
         Camera* camera;
         glm::mat4 view;
         glm::mat4 projection;

@@ -7,6 +7,12 @@ namespace Gfx
 {
 namespace OpenGL
 {
+    enum class Mode
+    {
+        FILL = 0,
+        LINE
+    };
+
     class Renderer
     {
     public:
@@ -15,6 +21,7 @@ namespace OpenGL
         void Init();
         void Destroy();
         void Render(Shader*, Buffer*);
+        void SetMode(Mode& mode);
 
     private:
         Renderer();

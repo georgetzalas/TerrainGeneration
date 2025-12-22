@@ -17,6 +17,7 @@ int main()
     while(Core::Window::GetInstance()->IsOpen())
     {
         Core::Window::GetInstance()->Clear();
+
         Core::Input::GetInstance()->Update();
 
         terrain->Update();
