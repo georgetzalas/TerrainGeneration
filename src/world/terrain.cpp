@@ -50,27 +50,27 @@ void World::Terrain::GenerateTerrain()
 void World::Terrain::Update()
 {
     projection = glm::perspective(45.0f, Core::Window::GetInstance()->GetWidth()/(float)Core::Window::GetInstance()->GetHeight(), 0.1f, 1000.0f);
-    view       = camera->getViewMatrix();
+    view       = camera->GetViewMatrix();
 
 
     if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_W))
     {
-        camera->processKeyboard(Direction::FORWARD);
+        camera->ProcessKeyboard(Direction::FORWARD);
     }
 
     if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_S))
     {
-        camera->processKeyboard(Direction::BACK);
+        camera->ProcessKeyboard(Direction::BACK);
     }
 
     if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_A))
     {
-        camera->processKeyboard(Direction::LEFT);
+        camera->ProcessKeyboard(Direction::LEFT);
     }
 
     if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_D))
     {
-        camera->processKeyboard(Direction::RIGHT);
+        camera->ProcessKeyboard(Direction::RIGHT);
     }
 
     if(Core::Input::GetInstance()->IsKeyboardKeyPressed(GLFW_KEY_O))
@@ -83,7 +83,7 @@ void World::Terrain::Update()
         renderMode = Gfx::OpenGL::Mode::LINE;
     }
 
-    camera->processMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
+    camera->ProcessMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
 }
 
 void World::Terrain::Render()

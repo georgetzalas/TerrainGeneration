@@ -3,8 +3,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-constexpr float SPEED = 0.5f;
-constexpr float SENSITIVITY = 0.1f;
+namespace World
+{
 
 enum class Direction
 {
@@ -18,15 +18,15 @@ class Camera
 {
 public:
     Camera(glm::vec3 from, glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 getViewMatrix();
-    float getZoom();
-    glm::vec3 getPosition();
+    glm::mat4 GetViewMatrix();
+    float GetZoom();
+    glm::vec3 GetPosition();
 
-    void processKeyboard(Direction direction);
-    void processScroll(bool mouseWheelUp, bool mouseWheelDown);
-    void processMouse(float xOffset, float yOffset);
+    void ProcessKeyboard(Direction direction);
+    void ProcessScroll(bool mouseWheelUp, bool mouseWheelDown);
+    void ProcessMouse(float xOffset, float yOffset);
 private:
-    void updateCameraVectors();
+    void UpdateCameraVectors();
 
 private:
     glm::vec3 right, up, forward;
@@ -34,4 +34,6 @@ private:
     glm::vec3 _up;
     float zoom;
     float yaw, pitch;
+    float speed, sensitivity;
+};
 };

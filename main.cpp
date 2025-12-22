@@ -12,7 +12,6 @@ int main()
 
     World::Terrain* terrain = new World::Terrain(256, 256);
     terrain->GenerateTerrain();
-    //terrain.PrintTerrainValues();
 
     while(Core::Window::GetInstance()->IsOpen())
     {
@@ -28,8 +27,9 @@ int main()
     }
 
     delete terrain;
-    Core::Input::GetInstance()->Destroy();
+
     Gfx::OpenGL::Renderer::GetInstance()->Destroy();
+    Core::Input::GetInstance()->Destroy();
     Core::Window::GetInstance()->Destroy();
 
     return 0;

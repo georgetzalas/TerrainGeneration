@@ -17,6 +17,8 @@ Generator::PerlinNoise::~PerlinNoise()
 
 void Generator::PerlinNoise::GeneratePerlinNoise()
 {
+    heights.clear();
+
     const siv::PerlinNoise perlin{ seed };
     const double fx = (frequency / (double)width);
     const double fz = (frequency / (double)depth);
@@ -29,7 +31,6 @@ void Generator::PerlinNoise::GeneratePerlinNoise()
             heights.push_back(height);
         }
     }
-
 }
 
 float Generator::PerlinNoise::GetHeight(int x, int z) 

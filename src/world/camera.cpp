@@ -1,6 +1,6 @@
-#include "camera.h"
+#include <world/camera.h>
 
-Camera::Camera(glm::vec3 from, glm::vec3 up)
+World::Camera::Camera(glm::vec3 from, glm::vec3 up)
 {
     this->_up = up;
     this->from = from;
@@ -8,44 +8,46 @@ Camera::Camera(glm::vec3 from, glm::vec3 up)
     this->yaw = -90.0f;
     this->pitch = 0.0f;
     this->zoom = 45.0f;
+    this->speed = 0.5f;
+    this->sensitivity = 0.1f;
 
-    updateCameraVectors();
+    UpdateCameraVectors();
 }
 
-glm::mat4 Camera::getViewMatrix()
+glm::mat4 World::Camera::GetViewMatrix()
 {
     return glm::lookAt(from, from + to, _up);
 }
 
-float Camera::getZoom()
+float World::Camera::GetZoom()
 {
     return zoom;
 }
 
-void Camera::processKeyboard(Direction direction)
+void World::Camera::ProcessKeyboard(Direction direction)
 {
 	if(direction == Direction::FORWARD)
 	{
-		from += to * SPEED;
+		from += to * speed;
 	}	
 
 	if(direction == Direction::BACK)
 	{
-		from -= to * SPEED;
+		from -= to * speed;
 	}
 
 	if(direction == Direction::LEFT)
 	{
-		from -= right * SPEED;
+		from -= right * speed;
 	}
 
 	if(direction == Direction::RIGHT)
 	{
-		from += right * SPEED;
+		from += right * speed;
 	}
 }
 
-void Camera::processScroll(bool mouseWheelUp, bool mouseWheelDown)
+void World::Camera::ProcessScroll(bool mouseWheelUp, bool mouseWheelDown)
 {
     if(mouseWheelUp)
     {
@@ -68,10 +70,10 @@ void Camera::processScroll(bool mouseWheelUp, bool mouseWheelDown)
     }
 }
 
-void Camera::processMouse(float xOffset, float yOffset)
+void World::Camera::ProcessMouse(float xOffset, float yOffset)
 {
-    xOffset *= SENSITIVITY;
-    yOffset *= SENSITIVITY;
+    xOffset *= sensitivity;
+    yOffset *= sensitivity;
 
     yaw += xOffset;
     pitch += yOffset;
@@ -79,10 +81,10 @@ void Camera::processMouse(float xOffset, float yOffset)
     if(pitch > 89.0f) pitch = 89.0f;
 	if(pitch < -89.0f) pitch = -89.0f;
 
-    updateCameraVectors();
+    UpdateCameraVectors();
 }
 
-void Camera::updateCameraVectors()
+void World::Camera::UpdateCameraVectors()
 {
 	glm::vec3 newFront;
 	newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -95,7 +97,7 @@ void Camera::updateCameraVectors()
 	up = glm::normalize(glm::cross(-to, right));
 }
 
-glm::vec3 Camera::getPosition()
+glm::vec3 World::Camera::GetPosition()
 {
     return from;
 }
