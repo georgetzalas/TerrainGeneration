@@ -49,7 +49,7 @@ void World::Terrain::GenerateTerrain()
 
 void World::Terrain::Update()
 {
-    projection = glm::perspective(45.0f, Core::Window::GetInstance()->GetWidth()/(float)Core::Window::GetInstance()->GetHeight(), 0.1f, 1000.0f);
+    projection = camera->GetProjectionMatrix();
     view       = camera->GetViewMatrix();
 
 

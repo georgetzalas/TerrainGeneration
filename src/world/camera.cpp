@@ -11,12 +11,23 @@ World::Camera::Camera(glm::vec3 from, glm::vec3 up)
     this->speed = 0.5f;
     this->sensitivity = 0.1f;
 
+    this->fov    = 45.0f;
+    this->width  = Core::Window::GetInstance()->GetWidth();
+    this->height = Core::Window::GetInstance()->GetHeight();
+    this->near   = 0.1f;
+    this->far    = 1000.0f;
+
     UpdateCameraVectors();
 }
 
 glm::mat4 World::Camera::GetViewMatrix()
 {
     return glm::lookAt(from, from + to, _up);
+}
+
+glm::mat4 World::Camera::GetProjectionMatrix()
+{
+    return glm::perspective(fov, width/(float)height, near, far);
 }
 
 float World::Camera::GetZoom()
@@ -100,4 +111,35 @@ void World::Camera::UpdateCameraVectors()
 glm::vec3 World::Camera::GetPosition()
 {
     return from;
+}
+
+
+float World::Camera::GetFov()
+{
+    return fov;
+}
+
+void World::Camera::SetFov(float fov)
+{
+    this->fov = fov;
+}
+
+float World::Camera::GetNear()
+{
+    return near;
+}
+
+void World::Camera::SetNear(float near)
+{
+    this->near = near;
+}
+
+float World::Camera::GetFar()
+{
+    return far;
+}
+
+void World::Camera::SetFar(float far)
+{
+    this->far = far;
 }
