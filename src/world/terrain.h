@@ -39,9 +39,7 @@ namespace World
         Gfx::OpenGL::Buffer* buffer;
         Gfx::OpenGL::Shader* shader;
         Gfx::OpenGL::Mode    renderMode;
-        Camera* camera;
-        glm::mat4 view;
-        glm::mat4 projection;
+        World::Camera*       camera;
 
         std::vector<Vertex> terrain;
     };

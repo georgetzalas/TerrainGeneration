@@ -25,8 +25,8 @@ void World::Terrain::GenerateTerrain()
 
     perlin.SetWidth(width);
     perlin.SetDepth(depth);
-    perlin.SetFrequency(32.0f);
-    perlin.SetOctaves(5);
+    perlin.SetFrequency(8.0f);
+    perlin.SetOctaves(8);
     perlin.SetSeed(2004);
     perlin.SetOffset(16.0f);
     perlin.GeneratePerlinNoise();
@@ -50,10 +50,6 @@ void World::Terrain::GenerateTerrain()
 
 void World::Terrain::Update()
 {
-    projection = camera->GetProjectionMatrix();
-    view       = camera->GetViewMatrix();
-
-
     if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_W))
     {
         camera->ProcessKeyboard(Direction::FORWARD);
@@ -90,8 +86,9 @@ void World::Terrain::Update()
 void World::Terrain::Render()
 {
     shader->Use();
-    shader->SetMatrix44f("view", view);
-    shader->SetMatrix44f("projection", projection);
+    shader->SetMatrix44f("view", camera->GetViewMatrix());
+    shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
+    shader->SetFloat("normalizationFactor", perlin.GetOffset());
     Gfx::OpenGL::Renderer::GetInstance()->SetMode(renderMode);
     Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
 }
