@@ -26,8 +26,9 @@ void World::Terrain::GenerateTerrain()
     perlin.SetWidth(width);
     perlin.SetDepth(depth);
     perlin.SetFrequency(32.0f);
-    perlin.SetOctaves(8);
+    perlin.SetOctaves(5);
     perlin.SetSeed(2004);
+    perlin.SetOffset(16.0f);
     perlin.GeneratePerlinNoise();
 
     for(int z=0; z<depth; z++)
@@ -37,7 +38,7 @@ void World::Terrain::GenerateTerrain()
             Vertex v;
 
             v.x = x;
-            v.y = perlin.GetHeight(x, z) * 16.0f;
+            v.y = perlin.GetHeight(x, z) * perlin.GetOffset();
             v.z = z;
 
             terrain.push_back(v);

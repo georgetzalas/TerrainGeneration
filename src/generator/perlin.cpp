@@ -100,4 +100,12 @@ void Generator::PerlinNoise::SetDepth(uint32_t depth)
     this->depth = depth;
 }
 
+float Generator::PerlinNoise::GetOffset() const
+{
+    return offset;
+}
 
+void Generator::PerlinNoise::SetOffset(float offset)
+{
+    this->offset = offset;
+}

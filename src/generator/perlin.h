@@ -30,12 +30,16 @@ namespace Generator
         uint32_t GetDepth() const;
         void SetDepth(uint32_t depth);
 
+        float GetOffset() const;
+        void SetOffset(float offset);
+
     private:
         double frequency;
         int octaves;
         uint32_t seed;
         uint32_t width;
         uint32_t depth;
+        float offset;
         std::vector<float> heights;
     };
 };
