@@ -80,7 +80,10 @@ void World::Terrain::Update()
         renderMode = Gfx::OpenGL::Mode::LINE;
     }
 
-    camera->ProcessMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
+    if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_LEFT_CONTROL))
+    {
+        camera->ProcessMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
+    }
 }
 
 void World::Terrain::Render()
