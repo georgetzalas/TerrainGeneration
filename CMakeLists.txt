@@ -16,6 +16,7 @@ add_executable(TerrainGeneration
     src/gfx/opengl/types/buffer.cpp
     src/utils/util.cpp
     src/ui/ui_manager.cpp
+    src/app/app.cpp
     vendors/imgui/imgui.cpp
     vendors/imgui/imgui_demo.cpp
     vendors/imgui/imgui_draw.cpp
