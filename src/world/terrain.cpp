@@ -7,7 +7,19 @@ World::Terrain::Terrain(uint32_t width, uint32_t depth)
 
     shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
     buffer            = new Gfx::OpenGL::Buffer();
-    camera            = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    camera            = new Camera(glm::vec3(0.0f, 3.0f, -3.0f));
+
+    renderMode        = Gfx::OpenGL::Mode::FILL;
+}
+
+World::Terrain::Terrain()
+{
+    this->width       = 0;
+    this->depth       = 0;
+
+    shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
+    buffer            = new Gfx::OpenGL::Buffer();
+    camera            = new Camera(glm::vec3(0.0f, 3.0f, -3.0f));
 
     renderMode        = Gfx::OpenGL::Mode::FILL;
 }
@@ -23,12 +35,12 @@ void World::Terrain::GenerateTerrain()
 {
     terrain.clear();
 
-    perlin.SetWidth(width);
+    /*perlin.SetWidth(width);
     perlin.SetDepth(depth);
     perlin.SetFrequency(8.0f);
     perlin.SetOctaves(8);
     perlin.SetSeed(2004);
-    perlin.SetOffset(16.0f);
+    perlin.SetOffset(16.0f);*/
     perlin.GeneratePerlinNoise();
 
     for(int z=0; z<depth; z++)
@@ -88,6 +100,7 @@ void World::Terrain::Update()
 
 void World::Terrain::Render()
 {
+    if(terrain.size() <= 0) return;
     shader->Use();
     shader->SetMatrix44f("view", camera->GetViewMatrix());
     shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
@@ -127,4 +140,9 @@ void World::Terrain::PrintTerrainValues() const
         }
         std::cout << std::endl;
     }
+}
+
+Generator::PerlinNoise& World::Terrain::GetPerlin() 
+{
+    return perlin;
 }

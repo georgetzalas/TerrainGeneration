@@ -54,7 +54,62 @@ void UI::UIManager::Render()
 
 void UI::UIManager::CreateUI()
 {
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
+
+    ImGui::Begin("Editor");
+
+        if(ImGui::TreeNode("Terrain Generation Settings"))
+        {
+            static int width = 256, depth = 256;
+            static int seed = 2004, octaves = 8;
+            static float frequency = 16.0f;
+            static float offset    = 16.0f;
+
+            ImGui::InputInt("Width", &width);
+            ImGui::InputInt("Depth", &depth);
+            ImGui::InputInt("Seed", &seed);
+            ImGui::InputInt("Octaves", &octaves);
+            ImGui::InputFloat("Frequency", &frequency);
+            ImGui::InputFloat("Y Offset", &offset);
+
+            terrain->SetWidth(width);
+            terrain->SetDepth(depth);
+
+            terrain->GetPerlin().SetWidth(width);
+            terrain->GetPerlin().SetDepth(depth);
+            terrain->GetPerlin().SetSeed(seed);
+            terrain->GetPerlin().SetFrequency(frequency);
+            terrain->GetPerlin().SetOctaves(octaves);
+            terrain->GetPerlin().SetOffset(offset);
+
+            if(ImGui::Button("Generate"))
+            {
+                terrain->GenerateTerrain();
+            }
+
+            ImGui::TreePop();
+        }
+
+        if(ImGui::TreeNode("Data"))
+        {
+            uint32_t numOfVertices = terrain->GetWidth() * terrain->GetDepth();
+            uint32_t numOfTriangles = 0;
+
+            if(numOfVertices > 0)
+            {
+                numOfTriangles = numOfVertices/3;
+            }
+
+            std::string vertices = "Number of vertices: " + std::to_string(numOfVertices);
+            std::string triangles = "Number of triangles: " + std::to_string(numOfTriangles);
+
+            ImGui::Text(vertices.c_str());
+            ImGui::Text(triangles.c_str());
+            ImGui::TreePop();
+        }
+
+
+    ImGui::End();
 }
 
 void UI::UIManager::Draw()

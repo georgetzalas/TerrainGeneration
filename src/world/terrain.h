@@ -18,6 +18,7 @@ namespace World
     {
     public:
         Terrain(uint32_t, uint32_t);
+        Terrain();
         ~Terrain();
 
         void GenerateTerrain();
@@ -31,6 +32,8 @@ namespace World
         void SetDepth(uint32_t);
 
         void PrintTerrainValues() const;
+
+        Generator::PerlinNoise& GetPerlin();
 
     private:
         uint32_t width;

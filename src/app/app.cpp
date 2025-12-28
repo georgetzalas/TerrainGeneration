@@ -19,8 +19,10 @@ void App::Init()
 
 void App::Run()
 {
-    terrain = new World::Terrain(TERRAIN_WIDTH, TERRAIN_HEIGHT);
-    terrain->GenerateTerrain();
+    terrain = new World::Terrain();
+    //terrain->GenerateTerrain();
+
+    UI::UIManager::GetInstance()->SetTerrain(terrain);
 
     while(Core::Window::GetInstance()->IsOpen())
     {
@@ -40,7 +42,6 @@ void App::Run()
 
 void App::Destroy()
 {
-
     delete terrain;
 
     UI::UIManager::GetInstance()->Destroy();

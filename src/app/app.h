@@ -6,9 +6,6 @@
 #include <gfx/opengl/renderer.h>
 #include <ui/ui_manager.h>
 
-#define TERRAIN_WIDTH  256
-#define TERRAIN_HEIGHT 256
-
 class App
 {
 public:

@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <world/terrain.h>
+#include <string>
 
 namespace UI
 {
