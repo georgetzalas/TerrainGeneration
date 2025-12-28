@@ -12,6 +12,8 @@
 #include <core/window.h>
 #include <core/input.h>
 
+#include <tracy/Tracy.hpp>
+
 namespace World
 {
     class Terrain

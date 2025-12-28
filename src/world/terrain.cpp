@@ -100,6 +100,7 @@ void World::Terrain::Update()
 
 void World::Terrain::Render()
 {
+    ZoneScopedN("Terrain Render");
     if(terrain.size() <= 0) return;
     shader->Use();
     shader->SetMatrix44f("view", camera->GetViewMatrix());

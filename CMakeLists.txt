@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 project(TerrainGeneration C CXX)
 
+option(TRACY_ENABLE "" ON)
+option(TRACY_ON_DEMAND "" ON)
+
+add_subdirectory(vendors/tracy)
 add_subdirectory(vendors/glfw)
 add_subdirectory(vendors/glm)
 
@@ -34,3 +38,4 @@ target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors/imgui)
 target_link_libraries(TerrainGeneration PRIVATE glfw)
 target_link_libraries(TerrainGeneration PRIVATE glm::glm)
+target_link_libraries(TerrainGeneration PRIVATE Tracy::TracyClient)
