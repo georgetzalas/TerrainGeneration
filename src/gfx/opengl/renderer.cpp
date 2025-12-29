@@ -2,6 +2,7 @@
 
 Gfx::OpenGL::Renderer* Gfx::OpenGL::Renderer::renderer = nullptr; 
 
+
 Gfx::OpenGL::Renderer* Gfx::OpenGL::Renderer::GetInstance()
 {
     if(renderer == nullptr)
@@ -36,6 +37,9 @@ void Gfx::OpenGL::Renderer::Render(Shader* shader, Buffer* buffer)
     buffer->Bind();
     shader->Use();
 
+    texture.Bind(0);
+    shader->SetInt("tex", 0);
+
     uint32_t numberOfStrips   = buffer->GetNumberStrips();
     uint32_t verticesPerStrip = buffer->GetVerticesPerStrip();
 
@@ -52,5 +56,4 @@ void Gfx::OpenGL::Renderer::Render(Shader* shader, Buffer* buffer)
 
 Gfx::OpenGL::Renderer::Renderer()
 {
-
 }

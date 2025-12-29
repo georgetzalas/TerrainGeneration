@@ -2,6 +2,7 @@
 
 #include <gfx/opengl/types/shader.h>
 #include <gfx/opengl/types/buffer.h>
+#include <gfx/opengl/types/texture.h>
 
 namespace Gfx
 {
@@ -31,6 +32,7 @@ namespace OpenGL
 
     private:
         static Renderer* renderer;
+        Gfx::OpenGL::Texture texture = Gfx::OpenGL::Texture("res/textures/rocks.jpg");
     };
 };
 };

@@ -3,14 +3,15 @@
 out vec4 Color;
 
 in float height;
+in vec2 TexCoords;
 uniform float normalizationFactor;
+uniform sampler2D tex;
 
 void main()
 {
-    float heightNormalized = height/normalizationFactor;
+    /*float heightNormalized = height/normalizationFactor;
 
     vec3 color = vec3(0.0f, 0.0f, 0.0f);
-
 
     //Water
     if(heightNormalized >= 0.0f && heightNormalized < 0.4f)
@@ -40,7 +41,7 @@ void main()
     if(heightNormalized >= 0.85f && heightNormalized <= 1.0f)
     {
         color = vec3(1.0f, 1.0f, 1.0f);
-    }
+    }*/
 
-    Color = vec4(color, 1.0f); 
+    Color = texture(tex, TexCoords);
 }

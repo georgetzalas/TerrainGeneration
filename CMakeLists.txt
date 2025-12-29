@@ -18,6 +18,7 @@ add_executable(TerrainGeneration
     src/gfx/opengl/renderer.cpp
     src/gfx/opengl/types/shader.cpp
     src/gfx/opengl/types/buffer.cpp
+    src/gfx/opengl/types/texture.cpp
     src/utils/util.cpp
     src/ui/ui_manager.cpp
     src/app/app.cpp
@@ -28,8 +29,8 @@ add_executable(TerrainGeneration
     vendors/imgui/backends/imgui_impl_opengl3.cpp
     vendors/imgui/imgui_tables.cpp
     vendors/imgui/imgui_widgets.cpp
-
     vendors/glad/glad.c
+    vendors/stb/stb_image.c
 )
 
 target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
