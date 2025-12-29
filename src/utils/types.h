@@ -1,15 +1,15 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 struct Vertex
 {
-    float x;
-    float y;
-    float z;
+    glm::vec3 position;
+    glm::vec2 uv;
 
     Vertex()
     {
-        x = 0;
-        y = 0;
-        z = 0;
+        position = glm::vec3(0.0f);
+        uv       = glm::vec2(0.0f);
     };
 };

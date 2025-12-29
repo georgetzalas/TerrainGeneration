@@ -49,9 +49,12 @@ void World::Terrain::GenerateTerrain()
         {
             Vertex v;
 
-            v.x = x;
-            v.y = perlin.GetHeight(x, z) * perlin.GetOffset();
-            v.z = z;
+            v.position.x = x;
+            v.position.y = perlin.GetHeight(x, z) * perlin.GetOffset();
+            v.position.z = z;
+
+            v.uv.x = x / (float)(width - 1);
+            v.uv.y = z / (float)(depth - 1);
 
             terrain.push_back(v);
         } 
@@ -137,7 +140,7 @@ void World::Terrain::PrintTerrainValues() const
         for(int x=0; x<width; x++)
         {
             int index = z + width * x;
-            std::cout << "(" << terrain[index].x << ", " << terrain[index].y << ", " << terrain[index].z << "), ";
+            std::cout << "(" << terrain[index].position.x << ", " << terrain[index].position.y << ", " << terrain[index].position.z << "), ";
         }
         std::cout << std::endl;
     }
