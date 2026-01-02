@@ -22,6 +22,7 @@ add_executable(TerrainGeneration
     src/utils/util.cpp
     src/ui/ui_manager.cpp
     src/app/app.cpp
+    src/tile/tile_manager.cpp
     vendors/imgui/imgui.cpp
     vendors/imgui/imgui_demo.cpp
     vendors/imgui/imgui_draw.cpp
@@ -31,6 +32,7 @@ add_executable(TerrainGeneration
     vendors/imgui/imgui_widgets.cpp
     vendors/glad/glad.c
     vendors/stb/stb_image.c
+    vendors/stb/stb_image_write.c
 )
 
 target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

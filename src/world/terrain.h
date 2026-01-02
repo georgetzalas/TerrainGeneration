@@ -11,8 +11,10 @@
 #include <world/camera.h>
 #include <core/window.h>
 #include <core/input.h>
+#include <tile/tile_manager.h>
 
 #include <tracy/Tracy.hpp>
+
 
 namespace World
 {
@@ -33,6 +35,9 @@ namespace World
         uint32_t GetDepth() const;
         void SetDepth(uint32_t);
 
+        float GetHeight(uint32_t x, uint32_t z) const;
+        float GetHeightInterpolated(uint32_t x, uint32_t z) const;
+
         void PrintTerrainValues() const;
 
         Generator::PerlinNoise& GetPerlin();
@@ -45,6 +50,9 @@ namespace World
         Gfx::OpenGL::Shader* shader;
         Gfx::OpenGL::Mode    renderMode;
         World::Camera*       camera;
+
+        //Temp
+        Gfx::OpenGL::Texture* texture;
 
         std::vector<Vertex> terrain;
     };

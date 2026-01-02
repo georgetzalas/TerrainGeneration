@@ -32,7 +32,6 @@ namespace OpenGL
 
     private:
         static Renderer* renderer;
-        Gfx::OpenGL::Texture texture = Gfx::OpenGL::Texture("res/textures/rocks.jpg");
     };
 };
 };

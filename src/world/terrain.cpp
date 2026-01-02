@@ -35,12 +35,6 @@ void World::Terrain::GenerateTerrain()
 {
     terrain.clear();
 
-    /*perlin.SetWidth(width);
-    perlin.SetDepth(depth);
-    perlin.SetFrequency(8.0f);
-    perlin.SetOctaves(8);
-    perlin.SetSeed(2004);
-    perlin.SetOffset(16.0f);*/
     perlin.GeneratePerlinNoise();
 
     for(int z=0; z<depth; z++)
@@ -59,6 +53,25 @@ void World::Terrain::GenerateTerrain()
             terrain.push_back(v);
         } 
     }
+
+    //TEMPORARY 
+    static int ttt = 1;
+
+    if(ttt == 1)
+    {
+        Gfx::OpenGL::Texture* grass = new Gfx::OpenGL::Texture("res/textures/grass.png");
+        Gfx::OpenGL::Texture* dirt  = new Gfx::OpenGL::Texture("res/textures/dirt.png");
+        Gfx::OpenGL::Texture* snow  = new Gfx::OpenGL::Texture("res/textures/snow.png");
+
+        TileManager tm;
+        tm.LoadTile(grass, Slot::ZERO);
+        tm.LoadTile(dirt,  Slot::ONE);
+        tm.LoadTile(snow,  Slot::TWO);
+        texture = tm.TextureGeneration(width, depth, this);
+    
+        ttt = 0;
+    }
+    //-----------//
 
     buffer->FillBuffer(sizeof(Vertex) * terrain.size(), terrain, width, depth);
 }
@@ -109,6 +122,8 @@ void World::Terrain::Render()
     shader->SetMatrix44f("view", camera->GetViewMatrix());
     shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
     shader->SetFloat("normalizationFactor", perlin.GetOffset());
+    texture->Bind(0);
+    shader->SetInt("tex", 0);
     Gfx::OpenGL::Renderer::GetInstance()->SetMode(renderMode);
     Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
 }
@@ -149,4 +164,35 @@ void World::Terrain::PrintTerrainValues() const
 Generator::PerlinNoise& World::Terrain::GetPerlin() 
 {
     return perlin;
+}
+
+float World::Terrain::GetHeight(uint32_t x, uint32_t z) const
+{
+    return terrain[width * z + x].position.y;
+}
+
+float World::Terrain::GetHeightInterpolated(uint32_t x, uint32_t z) const
+{
+    float BaseHeight = GetHeight((int)x, (int)z);
+
+    if(((int)x + 1 >= width) || ((int)z + 1 >= depth))
+    {
+        return BaseHeight;
+    }
+
+    float NextXHeight = GetHeight((int)x + 1, (int)z);
+
+    float RatioX = x - floorf(x);
+
+    float InterpolatedHeightX = (float)(NextXHeight - BaseHeight) * RatioX + (float)BaseHeight;
+
+    float NextZHeight = GetHeight((int)x, (int)z + 1);
+
+    float RatioZ = z - floorf(z);
+
+    float InterpolatedHeightZ = (float)(NextZHeight - BaseHeight) * RatioZ + (float)BaseHeight;
+
+    float FinalHeight = (InterpolatedHeightX + InterpolatedHeightZ) / 2.0f;
+
+    return FinalHeight;
 }
