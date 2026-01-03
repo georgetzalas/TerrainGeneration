@@ -10,8 +10,6 @@ Gfx::OpenGL::Texture::Texture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//glGenerateMipmap(GL_TEXTURE_2D);
-
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -131,6 +129,7 @@ glm::vec3 Gfx::OpenGL::Texture::GetColor(int x, int y)
 
 void Gfx::OpenGL::Texture::LoadData(uint32_t width, uint32_t height, u_char* data)
 {
+	this->data = data;
 	glBindTexture(GL_TEXTURE_2D, id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);

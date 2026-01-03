@@ -109,3 +109,9 @@ void Generator::PerlinNoise::SetOffset(float offset)
 {
     this->offset = offset;
 }
+
+float Generator::PerlinNoise::GetHeight(uint32_t offset) const
+{
+    return heights[offset];
+}
+

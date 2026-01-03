@@ -33,6 +33,8 @@ namespace Generator
         float GetOffset() const;
         void SetOffset(float offset);
 
+        float GetHeight(uint32_t) const;
+
     private:
         double frequency;
         int octaves;

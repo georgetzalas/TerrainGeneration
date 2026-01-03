@@ -36,6 +36,7 @@ namespace World
         void SetDepth(uint32_t);
 
         float GetHeight(uint32_t x, uint32_t z) const;
+        float GetRealHeight(uint32_t x, uint32_t z) const;
         float GetHeightInterpolated(uint32_t x, uint32_t z) const;
 
         void PrintTerrainValues() const;

@@ -171,6 +171,11 @@ float World::Terrain::GetHeight(uint32_t x, uint32_t z) const
     return terrain[width * z + x].position.y;
 }
 
+float World::Terrain::GetRealHeight(uint32_t x, uint32_t z) const
+{
+    return perlin.GetHeight(width * z + x);
+}
+
 float World::Terrain::GetHeightInterpolated(uint32_t x, uint32_t z) const
 {
     float BaseHeight = GetHeight((int)x, (int)z);

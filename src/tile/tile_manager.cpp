@@ -69,7 +69,7 @@ Gfx::OpenGL::Texture* TileManager::TextureGeneration(uint32_t width, uint32_t de
             float fGreen = 0.0f;
             float fBlue  = 0.0f;
 
-            float height = terrain->GetHeightInterpolated(x, z);
+            float height = terrain->GetRealHeight(x, z) * 255.0f;
 
             for(uint32_t i=0; i<TILE_NUMBER; i++)
             {
@@ -77,7 +77,6 @@ Gfx::OpenGL::Texture* TileManager::TextureGeneration(uint32_t width, uint32_t de
                 {
                     glm::vec3 color = tiles.textures[i]->GetColor(x, z);
                     float blend = RegionPercetange(tiles.regions[i], height);
-
 
                     fRed   += color.r * blend;
                     fGreen += color.g * blend;
@@ -94,10 +93,9 @@ Gfx::OpenGL::Texture* TileManager::TextureGeneration(uint32_t width, uint32_t de
     }
 
     stbi_write_jpg("res/textures/blend.jpg", width, depth, channels, TextureData, width * channels);
+
     Gfx::OpenGL::Texture* texture = new Gfx::OpenGL::Texture();
     texture->LoadData(width, depth, TextureData);
-
-    delete TextureData;
 
     return texture;
 }

@@ -4,6 +4,8 @@ project(TerrainGeneration C CXX)
 option(TRACY_ENABLE "" ON)
 option(TRACY_ON_DEMAND "" ON)
 
+add_compile_options(-g)
+
 add_subdirectory(vendors/tracy)
 add_subdirectory(vendors/glfw)
 add_subdirectory(vendors/glm)
