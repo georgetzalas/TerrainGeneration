@@ -69,7 +69,7 @@ Gfx::OpenGL::Texture* TileManager::TextureGeneration(uint32_t width, uint32_t de
             float fGreen = 0.0f;
             float fBlue  = 0.0f;
 
-            float height = terrain->GetRealHeight(x, z) * 255.0f;
+            float height = terrain->GetHeightInterpolated(x, z) * 255.0f;
 
             for(uint32_t i=0; i<TILE_NUMBER; i++)
             {

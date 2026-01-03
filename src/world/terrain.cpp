@@ -59,14 +59,16 @@ void World::Terrain::GenerateTerrain()
 
     if(ttt == 1)
     {
-        Gfx::OpenGL::Texture* grass = new Gfx::OpenGL::Texture("res/textures/grass.png");
-        Gfx::OpenGL::Texture* dirt  = new Gfx::OpenGL::Texture("res/textures/dirt.png");
-        Gfx::OpenGL::Texture* snow  = new Gfx::OpenGL::Texture("res/textures/snow.png");
+        Gfx::OpenGL::Texture* snow = new Gfx::OpenGL::Texture("res/textures/snow.png");
+        Gfx::OpenGL::Texture* rocks  = new Gfx::OpenGL::Texture("res/textures/rocks.png");
+        Gfx::OpenGL::Texture* sand  = new Gfx::OpenGL::Texture("res/textures/sand.png");
+        Gfx::OpenGL::Texture* water  = new Gfx::OpenGL::Texture("res/textures/water.png");
 
         TileManager tm;
-        tm.LoadTile(grass, Slot::ZERO);
-        tm.LoadTile(dirt,  Slot::ONE);
-        tm.LoadTile(snow,  Slot::TWO);
+        tm.LoadTile(water, Slot::ZERO);
+        tm.LoadTile(sand,  Slot::ONE);
+        tm.LoadTile(rocks,  Slot::TWO);
+        tm.LoadTile(snow,  Slot::THREE);
         texture = tm.TextureGeneration(width, depth, this);
     
         ttt = 0;
@@ -178,20 +180,20 @@ float World::Terrain::GetRealHeight(uint32_t x, uint32_t z) const
 
 float World::Terrain::GetHeightInterpolated(uint32_t x, uint32_t z) const
 {
-    float BaseHeight = GetHeight((int)x, (int)z);
+    float BaseHeight = GetRealHeight((int)x, (int)z);
 
     if(((int)x + 1 >= width) || ((int)z + 1 >= depth))
     {
         return BaseHeight;
     }
 
-    float NextXHeight = GetHeight((int)x + 1, (int)z);
+    float NextXHeight = GetRealHeight((int)x + 1, (int)z);
 
     float RatioX = x - floorf(x);
 
     float InterpolatedHeightX = (float)(NextXHeight - BaseHeight) * RatioX + (float)BaseHeight;
 
-    float NextZHeight = GetHeight((int)x, (int)z + 1);
+    float NextZHeight = GetRealHeight((int)x, (int)z + 1);
 
     float RatioZ = z - floorf(z);
 
