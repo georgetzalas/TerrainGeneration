@@ -75,7 +75,7 @@ void Core::Window::Init()
 {
     if(!glfwInit())
     {
-        std::cerr << "Could not initialize GLFW" << std::endl;
+        Core::Logger::GetInstance()->Log(LogLevel::ERROR, "Could not initialize GLFW");
         return;
     }
 
@@ -87,7 +87,7 @@ void Core::Window::Init()
 
     if(!glfwWindow)
     {
-        std::cerr << "Could not crete GLFW window" << std::endl;
+        Core::Logger::GetInstance()->Log(LogLevel::ERROR, "Could not create GLFW window");
         return;
     }
 
@@ -96,12 +96,11 @@ void Core::Window::Init()
 
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        Core::Logger::GetInstance()->Log(LogLevel::ERROR, "Failed to initialize glad");
         return;
     }
 
-    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Initialized Window System");
 }
 
 void Core::Window::Destroy()
@@ -109,4 +108,5 @@ void Core::Window::Destroy()
     glfwDestroyWindow(glfwWindow);
     glfwTerminate();
     delete window;
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Destroyed Window System");
 }

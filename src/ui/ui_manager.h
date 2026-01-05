@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <world/terrain.h>
 #include <string>
+#include <core/logger.h>
 
 namespace UI
 {

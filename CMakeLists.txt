@@ -14,6 +14,7 @@ add_executable(TerrainGeneration
     main.cpp
     src/core/window.cpp
     src/core/input.cpp
+    src/core/logger.cpp
     src/world/terrain.cpp
     src/world/camera.cpp
     src/generator/perlin.cpp

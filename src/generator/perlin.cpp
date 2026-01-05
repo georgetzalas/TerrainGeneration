@@ -31,23 +31,36 @@ void Generator::PerlinNoise::GeneratePerlinNoise()
             heights.push_back(height);
         }
     }
+
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Generated perlin noise " + std::to_string(width) + " " + std::to_string(depth));
 }
 
 float Generator::PerlinNoise::GetHeight(int x, int z) 
 {
     if(x < 0 || x >= width)
     {
-        std::cerr << "PerlinNoise GetHeight x out of bounds" << std::endl;
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "PerlinNoise GetHeight x out of bounds");
         return 0.0f;
     }
 
     if(z < 0 || z >= depth)
     {
-        std::cerr << "PerlinNoise GetHeight z out of bounds" << std::endl;
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "PerlinNoise GetHeight z out of bounds");
         return 0.0f;
     }
 
     return heights[z + width * x];
+}
+
+float Generator::PerlinNoise::GetHeight(uint32_t offset) const
+{
+    if(offset < 0 || offset >= heights.size())
+    {
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "PerlinNoise GetHeight offset out of bounds");
+        return 0.0f;
+    }
+
+    return heights[offset];
 }
 
 double Generator::PerlinNoise::GetFrequency() const
@@ -110,8 +123,4 @@ void Generator::PerlinNoise::SetOffset(float offset)
     this->offset = offset;
 }
 
-float Generator::PerlinNoise::GetHeight(uint32_t offset) const
-{
-    return heights[offset];
-}
 

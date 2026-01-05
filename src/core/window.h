@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include <iostream>
+#include <core/logger.h>
 
 #define WIDTH  1280
 #define HEIGHT 800

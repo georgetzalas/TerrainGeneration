@@ -39,6 +39,8 @@ void Core::Input::Init()
 
 	mousePosX = (float)windowSizeX / 2.0f;
 	mousePosY = (float)windowSizeY / 2.0f;
+
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Initialized Input System");
 }
 
 Core::Input* Core::Input::GetInstance()
@@ -140,6 +142,7 @@ void Core::Input::Update()
 void Core::Input::Destroy()
 {
     delete input;
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Destoryed Input System");
 }
 
 double Core::Input::GetMousePosX()

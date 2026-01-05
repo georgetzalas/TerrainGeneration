@@ -36,6 +36,8 @@ void UI::UIManager::Init()
     //Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(Core::Window::GetInstance()->GetWindow(), true);
     ImGui_ImplOpenGL3_Init("#version 460");
+
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Initialized UI System");
 }
 
 void UI::UIManager::Destroy()
@@ -43,6 +45,7 @@ void UI::UIManager::Destroy()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Destroyed UI System");
 }
 
 void UI::UIManager::Render()

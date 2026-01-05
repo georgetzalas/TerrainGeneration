@@ -11,6 +11,7 @@
 #include <world/camera.h>
 #include <core/window.h>
 #include <core/input.h>
+#include <core/logger.h>
 #include <tile/tile_manager.h>
 
 #include <tracy/Tracy.hpp>

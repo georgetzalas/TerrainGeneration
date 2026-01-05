@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <generator/heightmap.h>
 #include <perlin/PerlinNoise.hpp>
+#include <core/logger.h>
 
 namespace Generator
 {

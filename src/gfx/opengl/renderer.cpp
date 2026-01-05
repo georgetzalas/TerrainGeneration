@@ -13,11 +13,13 @@ Gfx::OpenGL::Renderer* Gfx::OpenGL::Renderer::GetInstance()
 void Gfx::OpenGL::Renderer::Init()
 {
     glEnable(GL_DEPTH_TEST);
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Initialized Render System");
 }
 
 void Gfx::OpenGL::Renderer::Destroy()
 { 
     delete renderer;
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Destroyed Render System");
 }
 
 void Gfx::OpenGL::Renderer::SetMode(Mode& mode)

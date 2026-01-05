@@ -78,6 +78,8 @@ void World::Terrain::GenerateTerrain()
     //-----------//
 
     buffer->FillBuffer(sizeof(Vertex) * terrain.size(), terrain, width, depth);
+
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Created terrain " + std::to_string(width) + " " + std::to_string(depth));
 }
 
 void World::Terrain::Update()
@@ -176,11 +178,20 @@ Generator::PerlinNoise& World::Terrain::GetPerlin()
 
 float World::Terrain::GetHeight(uint32_t x, uint32_t z) const
 {
+    if(x >= width || z >= depth)
+    {
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Terrain GetHeight out of bounds");
+    }
     return terrain[width * z + x].position.y;
 }
 
 float World::Terrain::GetRealHeight(uint32_t x, uint32_t z) const
 {
+    if(x >= width || z >= depth)
+    {
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Terrain GetRealHeight out of bounds");
+    }
+
     return perlin.GetHeight(width * z + x);
 }
 

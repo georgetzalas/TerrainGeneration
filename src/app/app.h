@@ -5,6 +5,7 @@
 #include <world/terrain.h>
 #include <gfx/opengl/renderer.h>
 #include <ui/ui_manager.h>
+#include <core/logger.h>
 
 class App
 {

@@ -3,6 +3,7 @@
 #include <gfx/opengl/types/shader.h>
 #include <gfx/opengl/types/buffer.h>
 #include <gfx/opengl/types/texture.h>
+#include <core/logger.h>
 
 namespace Gfx
 {

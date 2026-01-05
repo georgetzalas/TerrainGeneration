@@ -11,6 +11,7 @@ App::~App()
 
 void App::Init()
 {
+    Core::Logger::GetInstance()->Init();
     Core::Window::GetInstance()->Init();
     Core::Input::GetInstance()->Init();
     Gfx::OpenGL::Renderer::GetInstance()->Init();
@@ -48,4 +49,5 @@ void App::Destroy()
     Gfx::OpenGL::Renderer::GetInstance()->Destroy();
     Core::Input::GetInstance()->Destroy();
     Core::Window::GetInstance()->Destroy();
+    Core::Logger::GetInstance()->Destroy();
 }
