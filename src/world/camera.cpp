@@ -5,8 +5,8 @@ World::Camera::Camera(glm::vec3 from, glm::vec3 up)
     this->_up = up;
     this->from = from;
     this->to = glm::vec3(0.0f, 0.0f, -1.0f);
-    this->yaw = -90.0f;
-    this->pitch = 0.0f;
+    this->yaw = 90.0f;
+    this->pitch = -45.0f;
     this->zoom = 45.0f;
     this->speed = 0.5f;
     this->sensitivity = 0.1f;
@@ -15,7 +15,7 @@ World::Camera::Camera(glm::vec3 from, glm::vec3 up)
     this->width  = Core::Window::GetInstance()->GetWidth();
     this->height = Core::Window::GetInstance()->GetHeight();
     this->near   = 0.1f;
-    this->far    = 1000.0f;
+    this->far    = 10000.0f;
 
     UpdateCameraVectors();
 }
@@ -106,6 +106,11 @@ void World::Camera::UpdateCameraVectors()
 
 	right = glm::normalize(glm::cross(_up, -to));
 	up = glm::normalize(glm::cross(-to, right));
+}
+
+void World::Camera::SetPosition(glm::vec3 position)
+{
+    this->from = position;
 }
 
 glm::vec3 World::Camera::GetPosition()

@@ -18,11 +18,12 @@ enum class Direction
 class Camera
 {
 public:
-    Camera(glm::vec3 from, glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f));
+    Camera(glm::vec3 from = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 GetViewMatrix();
     glm::mat4 GetProjectionMatrix();
     float GetZoom();
     glm::vec3 GetPosition();
+    void SetPosition(glm::vec3 position);
 
     void ProcessKeyboard(Direction direction);
     void ProcessScroll(bool mouseWheelUp, bool mouseWheelDown);

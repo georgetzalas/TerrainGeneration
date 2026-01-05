@@ -7,7 +7,7 @@ World::Terrain::Terrain(uint32_t width, uint32_t depth)
 
     shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
     buffer            = new Gfx::OpenGL::Buffer();
-    camera            = new Camera(glm::vec3(0.0f, 3.0f, -3.0f));
+    camera            = new Camera();
 
     renderMode        = Gfx::OpenGL::Mode::FILL;
 }
@@ -19,7 +19,7 @@ World::Terrain::Terrain()
 
     shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
     buffer            = new Gfx::OpenGL::Buffer();
-    camera            = new Camera(glm::vec3(0.0f, 3.0f, -3.0f));
+    camera            = new Camera();
 
     renderMode        = Gfx::OpenGL::Mode::FILL;
 }
@@ -42,10 +42,10 @@ void World::Terrain::GenerateTerrain()
         for(int x=0; x<width; x++)
         {
             Vertex v;
-
-            v.position.x = x;
+        
+            v.position.x = x - width/2.0f;
             v.position.y = perlin.GetHeight(x, z) * perlin.GetOffset();
-            v.position.z = z;
+            v.position.z = z - depth/2.0f;
 
             v.uv.x = x / (float)(width - 1);
             v.uv.y = z / (float)(depth - 1);
@@ -53,6 +53,8 @@ void World::Terrain::GenerateTerrain()
             terrain.push_back(v);
         } 
     }
+
+    camera->SetPosition(glm::vec3(0.0f, depth, -(int)depth));
 
     //TEMPORARY 
     static int ttt = 1;
@@ -119,13 +121,17 @@ void World::Terrain::Update()
 void World::Terrain::Render()
 {
     ZoneScopedN("Terrain Render");
+
     if(terrain.size() <= 0) return;
+
     shader->Use();
     shader->SetMatrix44f("view", camera->GetViewMatrix());
     shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
     shader->SetFloat("normalizationFactor", perlin.GetOffset());
+
     texture->Bind(0);
     shader->SetInt("tex", 0);
+
     Gfx::OpenGL::Renderer::GetInstance()->SetMode(renderMode);
     Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
 }
