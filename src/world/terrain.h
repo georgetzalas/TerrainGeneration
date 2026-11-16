@@ -9,6 +9,7 @@
 #include <gfx/opengl/types/shader.h>
 #include <gfx/opengl/renderer.h>
 #include <world/camera.h>
+#include <world/chunk.h>
 #include <core/window.h>
 #include <core/input.h>
 #include <core/logger.h>
@@ -36,6 +37,9 @@ namespace World
         uint32_t GetDepth() const;
         void SetDepth(uint32_t);
 
+        uint32_t GetChunkSize() const;
+        void SetChunkSize(uint32_t);
+
         float GetHeight(uint32_t x, uint32_t z) const;
         float GetRealHeight(uint32_t x, uint32_t z) const;
         float GetHeightInterpolated(uint32_t x, uint32_t z) const;
@@ -45,10 +49,20 @@ namespace World
         Generator::PerlinNoise& GetPerlin();
 
     private:
+        void CreateChunks();
+        void DeleteChunks();
+
+    private:
         uint32_t width;
         uint32_t depth;
+
+        uint32_t chunkSize;
+        uint32_t chunkX;
+        uint32_t chunkZ;
+        std::vector<TerrainChunk*> chunks;
+
         Generator::PerlinNoise perlin;
-        Gfx::OpenGL::Buffer* buffer;
+        //Gfx::OpenGL::Buffer* buffer;
         Gfx::OpenGL::Shader* shader;
         Gfx::OpenGL::Mode    renderMode;
         World::Camera*       camera;
@@ -56,6 +70,6 @@ namespace World
         //Temp
         Gfx::OpenGL::Texture* texture;
 
-        std::vector<Vertex> terrain;
+        //std::vector<Vertex> terrain;
     };
 };

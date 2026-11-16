@@ -49,7 +49,7 @@ float Generator::PerlinNoise::GetHeight(int x, int z)
         return 0.0f;
     }
 
-    return heights[z + width * x];
+    return heights[width * z + x];
 }
 
 float Generator::PerlinNoise::GetHeight(uint32_t offset) const

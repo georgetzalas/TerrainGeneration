@@ -16,8 +16,11 @@ World::TerrainChunk::TerrainChunk(uint32_t chunkX, uint32_t chunkZ, uint32_t chu
 
     // Border chunks can be smaller than chunkSize if the terrain
     // size is not an exact multiple of the chunk size
-    sizeX = std::min(chunkSize, terrainWidth  - startX);
-    sizeZ = std::min(chunkSize, terrainDepth - startZ);
+    // A chunk owns chunkSize QUAD columns/rows, which needs chunkSize+1 VERTICES.
+    // The extra edge column is duplicated with the next chunk (same world position,
+    // same height) so borders are seamless. Clamp at the terrain edge.
+    sizeX = std::min(chunkSize, terrainWidth  - 1 - startX) + 1;
+    sizeZ = std::min(chunkSize, terrainDepth - 1 - startZ) + 1;
 
     buffer = new Gfx::OpenGL::Buffer();
 }
@@ -65,7 +68,7 @@ void World::TerrainChunk::Generate(Generator::PerlinNoise& perlin, float normali
 
 void World::TerrainChunk::Render(Gfx::OpenGL::Shader* shader)
 {
-    if(vertices.empty()) return;
+    if(vertices.size() <= 0) return;
 
     Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
 }
