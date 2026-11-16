@@ -17,32 +17,32 @@ public:
     Shader(const std::string& vertexPath, const std::string& fragmentPath);
     ~Shader();
 
-    void Use();
+    void Use() const;
 
-    void SetBool(const std::string& name, bool value);
-    void SetInt(const std::string& name, int value);
-    void SetFloat(const std::string& name, float value);
-    void SetMatrix44f(const std::string& name, glm::mat4 value);
-    void SetVec2f(const std::string& name, float x, float y);
-    void SetVec2f(const std::string& name, glm::vec2 value);
-    void SetVec3f(const std::string& name, float x, float y, float z);
-    void SetVec3f(const std::string& name, glm::vec3 value);
-    void SetVec4f(const std::string& name, float x, float y, float z, float w);
-    void SetVec4f(const std::string& name, glm::vec4 value);
+    void SetBool(const std::string& name, bool value) const;
+    void SetInt(const std::string& name, int value) const;
+    void SetFloat(const std::string& name, float value) const;
+    void SetMatrix44f(const std::string& name, glm::mat4 value) const;
+    void SetVec2f(const std::string& name, float x, float y) const;
+    void SetVec2f(const std::string& name, glm::vec2 value) const;
+    void SetVec3f(const std::string& name, float x, float y, float z) const;
+    void SetVec3f(const std::string& name, glm::vec3 value) const;
+    void SetVec4f(const std::string& name, float x, float y, float z, float w) const;
+    void SetVec4f(const std::string& name, glm::vec4 value) const;
 
-	std::string GetVertexPath();
-	std::string GetFragmentPath();
+	const std::string& GetVertexPath() const;
+	const std::string& GetFragmentPath() const;
 
-	std::string GetName();
+	const std::string& GetName() const;
+
+private:
+    void CompileShader();
 
 private:
     GLuint id;
 	std::string name;
     std::string vertexPath;
     std::string fragmentPath;
-	
-    
-    void CompileShader();
 };
 };
 };

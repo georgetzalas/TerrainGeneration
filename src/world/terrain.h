@@ -18,15 +18,15 @@
 
 #include <tracy/Tracy.hpp>
 
-enum class TerrainMode
-{
-    MESH = 0,
-    CHUNKED,
-};
-
-
 namespace World
 {
+
+    enum class TerrainMode
+    {
+        MESH = 0,
+        CHUNKED,
+    };
+
     class Terrain
     {
     public:
@@ -75,7 +75,6 @@ namespace World
         TerrainMode            terrainMode;
 
         //Mesh based terrain
-
         World::TerrainMesh* terrainMesh = nullptr;
 
         //Chunk based terrain

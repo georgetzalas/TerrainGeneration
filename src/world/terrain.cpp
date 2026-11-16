@@ -96,7 +96,7 @@ void World::Terrain::DeleteChunkedTerrain()
 
 void World::Terrain::RenderChunkedTerrain()
 {
-    Gfx::OpenGL::Shader* shader = Gfx::OpenGL::Renderer::GetInstance()->GetShader("chunkDebug");
+    Gfx::OpenGL::Shader* const shader = Gfx::OpenGL::Renderer::GetInstance()->GetShader("chunkDebug");
 
     shader->Use();
     shader->SetMatrix44f("view", camera->GetViewMatrix());

@@ -9,7 +9,9 @@ Gfx::OpenGL::Buffer::Buffer()
 
 Gfx::OpenGL::Buffer::~Buffer()
 {
-
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &VAO);
 }
 
 void Gfx::OpenGL::Buffer::Bind() const

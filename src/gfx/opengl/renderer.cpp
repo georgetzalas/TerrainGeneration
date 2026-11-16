@@ -10,19 +10,19 @@ Gfx::OpenGL::Renderer* Gfx::OpenGL::Renderer::GetInstance()
     return renderer;
 }
 
-void Gfx::OpenGL::Renderer::Init()
+void Gfx::OpenGL::Renderer::Init() const
 {
     glEnable(GL_DEPTH_TEST);
     Core::Logger::GetInstance()->Log(LogLevel::INFO, "Initialized Render System");
 }
 
-void Gfx::OpenGL::Renderer::Destroy()
+void Gfx::OpenGL::Renderer::Destroy() const
 { 
     delete renderer;
     Core::Logger::GetInstance()->Log(LogLevel::INFO, "Destroyed Render System");
 }
 
-void Gfx::OpenGL::Renderer::SetMode(Mode& mode)
+void Gfx::OpenGL::Renderer::SetMode(const Mode& mode) const
 {
     if(mode == Gfx::OpenGL::Mode::FILL)
     {
@@ -34,7 +34,7 @@ void Gfx::OpenGL::Renderer::SetMode(Mode& mode)
     }
 }
 
-void Gfx::OpenGL::Renderer::Render(Shader* shader, Buffer* buffer)
+void Gfx::OpenGL::Renderer::Render(const Shader* const shader, const Buffer* const buffer) const
 {
     buffer->Bind();
     shader->Use();
@@ -59,7 +59,15 @@ Gfx::OpenGL::Renderer::Renderer()
     shaders.insert({"chunkDebug", new Shader("./res/shaders/chunkDebug.vs", "./res/shaders/chunkDebug.fs")});
 }
 
-Gfx::OpenGL::Shader* Gfx::OpenGL::Renderer::GetShader(const std::string& name)
+Gfx::OpenGL::Renderer::~Renderer()
+{
+    for(auto it = shaders.begin(); it != shaders.end(); it++)
+    {
+        delete it->second;
+    }
+}
+
+Gfx::OpenGL::Shader* Gfx::OpenGL::Renderer::GetShader(const std::string& name) const
 {
     auto it = shaders.find(name);
 
@@ -67,5 +75,6 @@ Gfx::OpenGL::Shader* Gfx::OpenGL::Renderer::GetShader(const std::string& name)
         return it->second;
 
     Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Shader with name " + name + " not found");
+
     return nullptr;
 }

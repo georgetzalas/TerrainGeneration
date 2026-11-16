@@ -17,19 +17,26 @@ namespace OpenGL
         LINE
     };
 
+    struct RenderSettings
+    {
+        bool DepthTest = false;
+    };
+
     class Renderer
     {
     public:
         static Renderer* GetInstance();
 
-        void Init();
-        void Destroy();
-        void Render(Shader*, Buffer*);
-        void SetMode(Mode& mode);
-        Gfx::OpenGL::Shader* GetShader(const std::string& name);
+        void Init() const;
+        void Destroy() const;
+        void Render(const Shader* const shader, const Buffer* const buffer) const;
+        void SetMode(const Mode& mode) const;
+
+        Gfx::OpenGL::Shader* GetShader(const std::string& name) const;
 
     private:
         Renderer();
+        ~Renderer();
 
         Renderer(Renderer &other) = delete;
         void operator=(const Renderer&) = delete;
