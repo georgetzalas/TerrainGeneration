@@ -1,4 +1,4 @@
-#include <world/chunk.h>
+#include <world/terrain_chunk.h>
 
 #include <algorithm>
 #include <cfloat>
@@ -106,6 +106,16 @@ uint32_t World::TerrainChunk::GetSizeX() const
 uint32_t World::TerrainChunk::GetSizeZ() const
 {
     return sizeZ;
+}
+
+void World::TerrainChunk::SetChunkID(uint32_t chunkID)
+{
+    this->chunkID = chunkID;
+}
+
+uint32_t World::TerrainChunk::GetChunkID() const
+{
+    return chunkID;
 }
 
 const std::vector<Vertex>& World::TerrainChunk::GetVertices() const

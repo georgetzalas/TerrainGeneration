@@ -4,8 +4,8 @@ out vec4 Color;
 
 in float height;
 in vec2 TexCoords;
+
 uniform float normalizationFactor;
-uniform sampler2D tex;
 
 void main()
 {

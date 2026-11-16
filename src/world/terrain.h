@@ -9,13 +9,20 @@
 #include <gfx/opengl/types/shader.h>
 #include <gfx/opengl/renderer.h>
 #include <world/camera.h>
-#include <world/chunk.h>
+#include <world/terrain_chunk.h>
+#include <world/terrain_mesh.h>
 #include <core/window.h>
 #include <core/input.h>
 #include <core/logger.h>
 #include <tile/tile_manager.h>
 
 #include <tracy/Tracy.hpp>
+
+enum class TerrainMode
+{
+    MESH = 0,
+    CHUNKED,
+};
 
 
 namespace World
@@ -49,27 +56,32 @@ namespace World
         Generator::PerlinNoise& GetPerlin();
 
     private:
-        void CreateChunks();
-        void DeleteChunks();
+        void GenerateChunkedTerrain();
+        void DeleteChunkedTerrain();
+        void RenderChunkedTerrain();
+
+        void GenerateMeshedTerrain();
+        void DeleteMeshedTerrain();
+        void RenderMeshedTerrain();
 
     private:
+        //General Terrain info
         uint32_t width;
         uint32_t depth;
 
-        uint32_t chunkSize;
+        Generator::PerlinNoise perlin;
+        Gfx::OpenGL::Mode      renderMode;
+        World::Camera*         camera;
+        TerrainMode            terrainMode;
+
+        //Mesh based terrain
+
+        World::TerrainMesh* terrainMesh = nullptr;
+
+        //Chunk based terrain
+        uint32_t chunkSize = 32;
         uint32_t chunkX;
         uint32_t chunkZ;
         std::vector<TerrainChunk*> chunks;
-
-        Generator::PerlinNoise perlin;
-        //Gfx::OpenGL::Buffer* buffer;
-        Gfx::OpenGL::Shader* shader;
-        Gfx::OpenGL::Mode    renderMode;
-        World::Camera*       camera;
-
-        //Temp
-        Gfx::OpenGL::Texture* texture;
-
-        //std::vector<Vertex> terrain;
     };
 };

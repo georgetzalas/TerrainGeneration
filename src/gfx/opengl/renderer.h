@@ -4,6 +4,8 @@
 #include <gfx/opengl/types/buffer.h>
 #include <gfx/opengl/types/texture.h>
 #include <core/logger.h>
+#include <unordered_map>
+#include <string>
 
 namespace Gfx
 {
@@ -24,6 +26,7 @@ namespace OpenGL
         void Destroy();
         void Render(Shader*, Buffer*);
         void SetMode(Mode& mode);
+        Gfx::OpenGL::Shader* GetShader(const std::string& name);
 
     private:
         Renderer();
@@ -33,6 +36,7 @@ namespace OpenGL
 
     private:
         static Renderer* renderer;
+        std::unordered_map<std::string, Gfx::OpenGL::Shader*> shaders;
     };
 };
 };

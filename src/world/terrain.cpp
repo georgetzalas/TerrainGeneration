@@ -4,103 +4,135 @@ World::Terrain::Terrain(uint32_t width, uint32_t depth)
 {
     this->width       = width;
     this->depth       = depth;
-
-    shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
-    //buffer            = new Gfx::OpenGL::Buffer();
     camera            = new Camera();
-
-    chunkSize         = 32;
-    chunkX            = 0;
-    chunkZ            = 0;
-
     renderMode        = Gfx::OpenGL::Mode::FILL;
+    terrainMode       = TerrainMode::MESH;
 }
 
 World::Terrain::Terrain()
 {
     this->width       = 0;
     this->depth       = 0;
-
-    shader            = new Gfx::OpenGL::Shader("res/shaders/basic.vs", "res/shaders/basic.fs");
-    //buffer            = new Gfx::OpenGL::Buffer();
     camera            = new Camera();
-
-    chunkSize         = 32;
-    chunkX            = 0;
-    chunkZ            = 0;
-
     renderMode        = Gfx::OpenGL::Mode::FILL;
+    terrainMode       = TerrainMode::MESH;
 }
 
 World::Terrain::~Terrain()
 {
-    DeleteChunks();
-    delete shader;
-    //delete buffer;
     delete camera;
+    DeleteChunkedTerrain();
+    DeleteMeshedTerrain();
 }
 
 void World::Terrain::GenerateTerrain()
 {
-    /*terrain.clear();
-
     perlin.GeneratePerlinNoise();
-
-    for(int z=0; z<depth; z++)
+    if(terrainMode == TerrainMode::CHUNKED)
     {
-        for(int x=0; x<width; x++)
+        GenerateChunkedTerrain();
+    }
+    else if(terrainMode == TerrainMode::MESH)
+    {
+        GenerateMeshedTerrain();
+    }
+    else
+    {
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Not a valid terrain mode");
+    }
+
+    camera->SetPosition(glm::vec3(0.0f, depth, -(int)depth));
+}
+
+void World::Terrain::Render()
+{
+    if(terrainMode == TerrainMode::CHUNKED)
+    {
+        RenderChunkedTerrain();
+    }
+    else if(terrainMode == TerrainMode::MESH)
+    {
+        RenderMeshedTerrain();
+    }
+    else
+    {
+        Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Not a valid terrain mode");
+    }
+
+}
+
+void World::Terrain::GenerateChunkedTerrain()
+{
+    DeleteChunkedTerrain();
+
+    chunkX = (width + chunkSize - 1) / chunkSize;
+    chunkZ = (depth + chunkSize - 1) / chunkSize;
+
+    for(uint32_t cz = 0; cz < chunkZ; cz++)
+    {
+        for(uint32_t cx = 0; cx < chunkX; cx++)
         {
-            Vertex v;
-        
-            v.position.x = x - width/2.0f;
-            v.position.y = perlin.GetHeight(x, z) * perlin.GetOffset();
-            v.position.z = z - depth/2.0f;
-
-            v.uv.x = x / (float)(width - 1);
-            v.uv.y = z / (float)(depth - 1);
-
-            terrain.push_back(v);
-        } 
+            TerrainChunk* chunk = new TerrainChunk(cx, cz, chunkSize, width, depth);
+            chunk->SetChunkID(cz+cx);
+            chunk->Generate(perlin, perlin.GetOffset());
+            chunks.push_back(chunk);
+        }
     }
 
-    camera->SetPosition(glm::vec3(0.0f, depth, -(int)depth));
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Generated chunked terrain");
+}
 
-    //TEMPORARY 
-    static int ttt = 1;
-
-    if(ttt == 1)
+void World::Terrain::DeleteChunkedTerrain()
+{
+    for(TerrainChunk* chunk : chunks)
     {
-        Gfx::OpenGL::Texture* snow = new Gfx::OpenGL::Texture("res/textures/snow.png");
-        Gfx::OpenGL::Texture* rocks  = new Gfx::OpenGL::Texture("res/textures/rocks.png");
-        Gfx::OpenGL::Texture* sand  = new Gfx::OpenGL::Texture("res/textures/sand.png");
-        Gfx::OpenGL::Texture* water  = new Gfx::OpenGL::Texture("res/textures/water.png");
-
-        TileManager tm;
-        tm.LoadTile(water, Slot::ZERO);
-        tm.LoadTile(sand,  Slot::ONE);
-        tm.LoadTile(rocks,  Slot::TWO);
-        tm.LoadTile(snow,  Slot::THREE);
-        texture = tm.TextureGeneration(width, depth, this);
-    
-        ttt = 0;
+        delete chunk;
     }
-    //-----------//
 
-    buffer->FillBuffer(sizeof(Vertex) * terrain.size(), terrain, width, depth);
+    chunks.clear();
+    chunkX = 0;
+    chunkZ = 0;
+}
 
-    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Created terrain " + std::to_string(width) + " " + std::to_string(depth));*/
+void World::Terrain::RenderChunkedTerrain()
+{
+    Gfx::OpenGL::Shader* shader = Gfx::OpenGL::Renderer::GetInstance()->GetShader("chunkDebug");
 
-    DeleteChunks();
+    shader->Use();
+    shader->SetMatrix44f("view", camera->GetViewMatrix());
+    shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
 
-    perlin.GeneratePerlinNoise();
+    for(TerrainChunk* chunk : chunks)
+    {
+        shader->SetInt("chunkID", chunk->GetChunkID());
+        chunk->Render(shader);
+    }
+}
 
-    CreateChunks();
+void World::Terrain::GenerateMeshedTerrain()
+{
+    DeleteMeshedTerrain();
+    terrainMesh = new TerrainMesh(width, depth);
+    terrainMesh->Generate(perlin, perlin.GetOffset());
+    Core::Logger::GetInstance()->Log(LogLevel::INFO, "Generated meshed terrain");
+}
 
-    camera->SetPosition(glm::vec3(0.0f, depth, -(int)depth));
+void World::Terrain::DeleteMeshedTerrain()
+{
+    delete terrainMesh;
+}
 
-    Core::Logger::GetInstance()->Log(LogLevel::INFO,
-        "Created terrain " + std::to_string(width) + " " + std::to_string(depth) +
-        " in " + std::to_string(chunkX) + "x" + std::to_string(chunkZ) + " chunks");
+void World::Terrain::RenderMeshedTerrain()
+{
+    Gfx::OpenGL::Shader* shader = Gfx::OpenGL::Renderer::GetInstance()->GetShader("basic");
+
+    shader->Use();
+    shader->SetMatrix44f("view", camera->GetViewMatrix());
+    shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
+    shader->SetFloat("normalizationFactor", perlin.GetOffset()); 
+
+    if(terrainMesh)
+        terrainMesh->Render(shader);
 }
 
 void World::Terrain::Update()
@@ -138,60 +170,6 @@ void World::Terrain::Update()
     if(Core::Input::GetInstance()->IsKeyboardKeyDown(GLFW_KEY_LEFT_CONTROL))
     {
         camera->ProcessMouse(Core::Input::GetInstance()->GetMouseOffsetX(), Core::Input::GetInstance()->GetMouseOffsetY());
-    }
-}
-
-void World::Terrain::CreateChunks()
-{
-    chunks.clear();
-
-    chunkX = (width + chunkSize - 1) / chunkSize;
-    chunkZ = (depth + chunkSize - 1) / chunkSize;
-
-    for(uint32_t cz = 0; cz < chunkZ; cz++)
-    {
-        for(uint32_t cx = 0; cx < chunkX; cx++)
-        {
-            TerrainChunk* chunk = new TerrainChunk(cx, cz, chunkSize, width, depth);
-            chunk->Generate(perlin, perlin.GetOffset());
-            chunks.push_back(chunk);
-        }
-    }
-}
-
-void World::Terrain::DeleteChunks()
-{
-    for(TerrainChunk* chunk : chunks)
-    {
-        delete chunk;
-    }
-
-    chunks.clear();
-    chunkX = 0;
-    chunkZ = 0;
-}
-
-void World::Terrain::Render()
-{
-    ZoneScopedN("Terrain Render");
-
-    //if(terrain.size() <= 0) return;
-    if(chunks.size() <= 0) return;
-
-    shader->Use();
-    shader->SetMatrix44f("view", camera->GetViewMatrix());
-    shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
-    shader->SetFloat("normalizationFactor", perlin.GetOffset());
-
-    //texture->Bind(0);
-    //shader->SetInt("tex", 0);
-
-    Gfx::OpenGL::Renderer::GetInstance()->SetMode(renderMode);
-    
-    //Gfx::OpenGL::Renderer::GetInstance()->Render(shader, buffer);
-    for(TerrainChunk* chunk : chunks)
-    {
-        chunk->Render(shader);
     }
 }
 

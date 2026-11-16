@@ -36,9 +36,13 @@ namespace World
         uint32_t GetSizeX() const;
         uint32_t GetSizeZ() const;
 
+        void SetChunkID(uint32_t chunkID);
+        uint32_t GetChunkID() const;
+
         const std::vector<Vertex>& GetVertices() const;
 
     private:
+        uint32_t chunkID;
         uint32_t chunkX, chunkZ;           // grid coordinates
         uint32_t startX, startZ;           // global grid coordinate of the first vertex
         uint32_t sizeX, sizeZ;             // actual vertex size (border chunks may be smaller)

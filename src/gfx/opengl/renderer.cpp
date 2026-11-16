@@ -55,4 +55,17 @@ void Gfx::OpenGL::Renderer::Render(Shader* shader, Buffer* buffer)
 
 Gfx::OpenGL::Renderer::Renderer()
 {
+    shaders.insert({"basic", new Shader("./res/shaders/basic.vs", "./res/shaders/basic.fs")});
+    shaders.insert({"chunkDebug", new Shader("./res/shaders/chunkDebug.vs", "./res/shaders/chunkDebug.fs")});
+}
+
+Gfx::OpenGL::Shader* Gfx::OpenGL::Renderer::GetShader(const std::string& name)
+{
+    auto it = shaders.find(name);
+
+    if(it != shaders.end())
+        return it->second;
+
+    Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Shader with name " + name + " not found");
+    return nullptr;
 }
