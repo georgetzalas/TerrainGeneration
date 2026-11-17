@@ -38,6 +38,7 @@ void App::Run()
 
         Core::Window::GetInstance()->ProcessEvents();
         Core::Window::GetInstance()->SwapBuffers();
+        TracyGpuCollect;
     }
 }
 

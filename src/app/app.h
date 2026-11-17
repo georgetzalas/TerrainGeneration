@@ -7,6 +7,9 @@
 #include <ui/ui_manager.h>
 #include <core/logger.h>
 
+#include <tracy/Tracy.hpp>
+#include <tracy/TracyOpenGL.hpp>
+
 class App
 {
 public:

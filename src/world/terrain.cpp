@@ -57,12 +57,12 @@ void World::Terrain::Render()
 
     if(terrainMode == TerrainMode::CHUNKED)
     {
-        //TracyGpuZone("Render chunked terrain");
+        TracyGpuZone("Render chunked terrain");
         RenderChunkedTerrain();
     }
     else if(terrainMode == TerrainMode::MESH)
     {
-        //TracyGpuZone("Render meshed terrain");
+        TracyGpuZone("Render meshed terrain");
         RenderMeshedTerrain();
     }
     else

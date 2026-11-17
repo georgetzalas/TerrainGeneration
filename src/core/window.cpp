@@ -94,11 +94,15 @@ void Core::Window::Init()
     glfwMakeContextCurrent(glfwWindow);
     glfwSetWindowSizeCallback(glfwWindow, window_resize);
 
+
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         Core::Logger::GetInstance()->Log(LogLevel::ERROR, "Failed to initialize glad");
         return;
     }
+
+    TracyGpuContext;
+    TracyGpuContextName("OpenGL context", 14);
 
     Core::Logger::GetInstance()->Log(LogLevel::INFO, "Initialized Window System");
 }

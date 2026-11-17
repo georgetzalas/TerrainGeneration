@@ -6,6 +6,9 @@
 #include <iostream>
 #include <core/logger.h>
 
+#include <tracy/Tracy.hpp>
+#include <tracy/TracyOpenGL.hpp>
+
 #define WIDTH  1280
 #define HEIGHT 800
 #define TITLE  "Terrain Generation"
