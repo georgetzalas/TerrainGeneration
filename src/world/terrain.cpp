@@ -28,6 +28,9 @@ World::Terrain::~Terrain()
 void World::Terrain::GenerateTerrain()
 {
     perlin.GeneratePerlinNoise();
+
+    Core::Timer::Start();
+
     if(terrainMode == TerrainMode::CHUNKED)
     {
         GenerateChunkedTerrain();
@@ -41,11 +44,15 @@ void World::Terrain::GenerateTerrain()
         Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Not a valid terrain mode");
     }
 
+    generationTime = Core::Timer::Elapsed();
+
     camera->SetPosition(glm::vec3(0.0f, depth, -(int)depth));
 }
 
 void World::Terrain::Render()
 {
+    Core::Timer::Start();
+
     if(terrainMode == TerrainMode::CHUNKED)
     {
         RenderChunkedTerrain();
@@ -59,6 +66,7 @@ void World::Terrain::Render()
         Core::Logger::GetInstance()->Log(LogLevel::WARNING, "Not a valid terrain mode");
     }
 
+    renderTime = Core::Timer::Elapsed();
 }
 
 void World::Terrain::GenerateChunkedTerrain()
@@ -237,6 +245,16 @@ uint32_t World::Terrain::GetChunkZ() const
 void World::Terrain::SetChunkZ(uint32_t chunkZ)
 {
     this->chunkZ = chunkZ;
+}
+
+double World::Terrain::GetGenerationTime() const
+{
+    return generationTime;
+}
+
+double World::Terrain::GetRenderTime() const
+{
+    return renderTime;
 }
 
 void World::Terrain::PrintTerrainValues() const

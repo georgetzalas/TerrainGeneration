@@ -14,6 +14,7 @@
 #include <core/window.h>
 #include <core/input.h>
 #include <core/logger.h>
+#include <core/timer.h>
 #include <tile/tile_manager.h>
 
 #include <tracy/Tracy.hpp>
@@ -56,6 +57,9 @@ namespace World
         uint32_t GetChunkZ() const;
         void SetChunkZ(uint32_t chunkZ);
 
+        double GetGenerationTime() const;
+        double GetRenderTime() const;
+
         float GetHeight(uint32_t x, uint32_t z) const;
         float GetRealHeight(uint32_t x, uint32_t z) const;
         float GetHeightInterpolated(uint32_t x, uint32_t z) const;
@@ -91,5 +95,10 @@ namespace World
         uint32_t chunkX;
         uint32_t chunkZ;
         std::vector<TerrainChunk*> chunks;
+        
+        //Measurements
+
+        double generationTime = 0.0f;
+        double renderTime     = 0.0f;
     };
 };

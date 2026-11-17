@@ -15,6 +15,7 @@ add_executable(TerrainGeneration
     src/core/window.cpp
     src/core/input.cpp
     src/core/logger.cpp
+    src/core/timer.cpp
     src/world/terrain.cpp
     src/world/terrain_chunk.cpp
     src/world/terrain_mesh.cpp

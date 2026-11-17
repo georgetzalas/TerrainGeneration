@@ -158,8 +158,11 @@ void UI::UIManager::CreateUI()
             }
             else
             {
-                ImGui::Text("Unknown terrai mode");
+                ImGui::Text("Unknown terrain mode");
             }
+
+            ImGui::Text(std::to_string(terrain->GetGenerationTime()).c_str());
+            ImGui::Text(std::to_string(terrain->GetRenderTime()).c_str());
 
             ImGui::TreePop();
         }
