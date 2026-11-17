@@ -33,10 +33,12 @@ void World::Terrain::GenerateTerrain()
 
     if(terrainMode == TerrainMode::CHUNKED)
     {
+        ZoneScopedN("Chunked generation/upload");
         GenerateChunkedTerrain();
     }
     else if(terrainMode == TerrainMode::MESH)
     {
+        ZoneScopedN("Mesh generation/upload");
         GenerateMeshedTerrain();
     }
     else
@@ -55,10 +57,12 @@ void World::Terrain::Render()
 
     if(terrainMode == TerrainMode::CHUNKED)
     {
+        //TracyGpuZone("Render chunked terrain");
         RenderChunkedTerrain();
     }
     else if(terrainMode == TerrainMode::MESH)
     {
+        //TracyGpuZone("Render meshed terrain");
         RenderMeshedTerrain();
     }
     else
