@@ -44,8 +44,17 @@ namespace World
         uint32_t GetDepth() const;
         void SetDepth(uint32_t);
 
+        TerrainMode GetTerrainMode() const;
+        void SetTerrainMode(const TerrainMode& terrainMode);
+
         uint32_t GetChunkSize() const;
         void SetChunkSize(uint32_t);
+
+        uint32_t GetChunkX() const;
+        void SetChunkX(uint32_t chunkX);
+
+        uint32_t GetChunkZ() const;
+        void SetChunkZ(uint32_t chunkZ);
 
         float GetHeight(uint32_t x, uint32_t z) const;
         float GetRealHeight(uint32_t x, uint32_t z) const;

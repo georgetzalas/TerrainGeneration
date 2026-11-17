@@ -61,12 +61,13 @@ void UI::UIManager::CreateUI()
 
     ImGui::Begin("Editor");
 
-        if(ImGui::TreeNode("Terrain Generation Settings"))
+        if(ImGui::TreeNode("Terrain Settings"))
         {
             static int width = 256, depth = 256;
             static int seed = 2004, octaves = 8;
             static float frequency = 16.0f;
             static float offset    = 16.0f;
+            static int chunkSize   = 32;
 
             ImGui::InputInt("Width", &width);
             ImGui::InputInt("Depth", &depth);
@@ -75,39 +76,91 @@ void UI::UIManager::CreateUI()
             ImGui::InputFloat("Frequency", &frequency);
             ImGui::InputFloat("Y Offset", &offset);
 
-            terrain->SetWidth(width);
-            terrain->SetDepth(depth);
+            const char* items[] = { "Mesh", "Chunk" };
+            static int item_current = 0;
+            ImGui::Combo("Terrain Type", &item_current, items, IM_COUNTOF(items));
 
-            terrain->GetPerlin().SetWidth(width);
-            terrain->GetPerlin().SetDepth(depth);
-            terrain->GetPerlin().SetSeed(seed);
-            terrain->GetPerlin().SetFrequency(frequency);
-            terrain->GetPerlin().SetOctaves(octaves);
-            terrain->GetPerlin().SetOffset(offset);
+            if(terrain->GetTerrainMode() == World::TerrainMode::CHUNKED)
+            {
+                ImGui::InputInt("Chunk size", &chunkSize);
+            }
 
             if(ImGui::Button("Generate"))
             {
+                terrain->SetWidth(width);
+                terrain->SetDepth(depth);
+                terrain->SetChunkSize(chunkSize);
+
+                if(item_current == 0)
+                {
+                    terrain->SetTerrainMode(World::TerrainMode::MESH);
+                }
+                else if(item_current == 1)
+                {
+                    terrain->SetTerrainMode(World::TerrainMode::CHUNKED);
+                }
+
+                terrain->GetPerlin().SetWidth(width);
+                terrain->GetPerlin().SetDepth(depth);
+                terrain->GetPerlin().SetSeed(seed);
+                terrain->GetPerlin().SetFrequency(frequency);
+                terrain->GetPerlin().SetOctaves(octaves);
+                terrain->GetPerlin().SetOffset(offset);
+
                 terrain->GenerateTerrain();
             }
 
             ImGui::TreePop();
         }
 
-        if(ImGui::TreeNode("Data"))
+        if(ImGui::TreeNode("Render Settings"))
         {
-            uint32_t numOfVertices = terrain->GetWidth() * terrain->GetDepth();
-            uint32_t numOfTriangles = 0;
+            ImGui::TreePop();
+        }
 
-            if(numOfVertices > 0)
+        if(ImGui::TreeNode("Measurements"))
+        {
+            if(terrain->GetTerrainMode() == World::TerrainMode::MESH)
             {
-                numOfTriangles = numOfVertices/3;
+                uint32_t numOfVertices = terrain->GetWidth() * terrain->GetDepth();
+                uint32_t numOfTriangles = 0;
+
+                if(numOfVertices > 0)
+                {
+                    numOfTriangles = numOfVertices/3;
+                }
+
+                std::string vertices = "Number of vertices: " + std::to_string(numOfVertices);
+                std::string triangles = "Number of triangles: " + std::to_string(numOfTriangles);
+
+                ImGui::Text(vertices.c_str());
+                ImGui::Text(triangles.c_str());
+            }
+            else if(terrain->GetTerrainMode() == World::TerrainMode::CHUNKED)
+            {
+                uint32_t numOfVertices  = terrain->GetWidth() * terrain->GetDepth();
+                uint32_t numOfTriangles = 0;
+                uint32_t totalChunks    = terrain->GetChunkX() * terrain->GetChunkZ();
+                uint32_t chunkSize      = terrain->GetChunkSize();
+
+                if(numOfVertices > 0)
+                {
+                    numOfTriangles = numOfVertices/3;
+                }
+
+                std::string vertices  = "Number of vertices: " + std::to_string(numOfVertices);
+                std::string triangles = "Number of triangles: " + std::to_string(numOfTriangles);
+                std::string chunks    = "Number of chunks: " + std::to_string(totalChunks) + ", " + std::to_string(chunkSize) + " size each";
+
+                ImGui::Text(vertices.c_str());
+                ImGui::Text(triangles.c_str());
+                ImGui::Text(chunks.c_str());
+            }
+            else
+            {
+                ImGui::Text("Unknown terrai mode");
             }
 
-            std::string vertices = "Number of vertices: " + std::to_string(numOfVertices);
-            std::string triangles = "Number of triangles: " + std::to_string(numOfTriangles);
-
-            ImGui::Text(vertices.c_str());
-            ImGui::Text(triangles.c_str());
             ImGui::TreePop();
         }
 

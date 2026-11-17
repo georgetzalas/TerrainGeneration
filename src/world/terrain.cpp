@@ -193,6 +193,16 @@ void World::Terrain::SetDepth(uint32_t depth)
     this->depth = depth;
 }
 
+World::TerrainMode World::Terrain::GetTerrainMode() const
+{
+    return terrainMode;
+}
+
+void World::Terrain::SetTerrainMode(const TerrainMode& terrainMode)
+{
+    this->terrainMode = terrainMode;
+}
+
 uint32_t World::Terrain::GetChunkSize() const
 {
     return chunkSize;
@@ -207,6 +217,26 @@ void World::Terrain::SetChunkSize(uint32_t chunkSize)
     }
 
     this->chunkSize = chunkSize;
+}
+
+uint32_t World::Terrain::GetChunkX() const
+{
+    return chunkX;
+}
+
+void World::Terrain::SetChunkX(uint32_t chunkX)
+{
+    this->chunkX = chunkX;
+}
+
+uint32_t World::Terrain::GetChunkZ() const
+{
+    return chunkZ;
+}
+
+void World::Terrain::SetChunkZ(uint32_t chunkZ)
+{
+    this->chunkZ = chunkZ;
 }
 
 void World::Terrain::PrintTerrainValues() const
