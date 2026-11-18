@@ -115,6 +115,14 @@ void UI::UIManager::CreateUI()
 
         if(ImGui::TreeNode("Render Settings"))
         {
+            static bool frustumCulling = false;
+            ImGui::Checkbox("Frustum Culling", &frustumCulling);
+
+            if(ImGui::Button("Apply"))
+            {
+                terrain->SetFrustumCulling(frustumCulling);
+            }
+
             ImGui::TreePop();
         }
 
@@ -142,27 +150,31 @@ void UI::UIManager::CreateUI()
                 uint32_t numOfTriangles = 0;
                 uint32_t totalChunks    = terrain->GetChunkX() * terrain->GetChunkZ();
                 uint32_t chunkSize      = terrain->GetChunkSize();
+                int renderedChunks      = terrain->GetRenderedChunks();
 
                 if(numOfVertices > 0)
                 {
                     numOfTriangles = numOfVertices/3;
                 }
 
-                std::string vertices  = "Number of vertices: " + std::to_string(numOfVertices);
-                std::string triangles = "Number of triangles: " + std::to_string(numOfTriangles);
-                std::string chunks    = "Number of chunks: " + std::to_string(totalChunks) + ", " + std::to_string(chunkSize) + " size each";
+                std::string numOfVerticesText       = "Number of vertices: " + std::to_string(numOfVertices);
+                std::string numOfTrianglesText      = "Number of triangles: " + std::to_string(numOfTriangles);
+                std::string totalChunksText         = "Number of chunks: " + std::to_string(totalChunks) + ", " + std::to_string(chunkSize) + " size each";
+                std::string renderedChunksText      = "Rendered chunks: " + std::to_string(renderedChunks);
 
-                ImGui::Text(vertices.c_str());
-                ImGui::Text(triangles.c_str());
-                ImGui::Text(chunks.c_str());
+                ImGui::Text(numOfVerticesText.c_str());
+                ImGui::Text(numOfTrianglesText.c_str());
+                ImGui::Text(totalChunksText.c_str());
+                ImGui::Text(renderedChunksText.c_str());
+
             }
             else
             {
                 ImGui::Text("Unknown terrain mode");
             }
 
-            ImGui::Text(std::to_string(terrain->GetGenerationTime()).c_str());
-            ImGui::Text(std::to_string(terrain->GetRenderTime()).c_str());
+            //ImGui::Text(std::to_string(terrain->GetGenerationTime()).c_str());
+            //ImGui::Text(std::to_string(terrain->GetRenderTime()).c_str());
 
             ImGui::TreePop();
         }

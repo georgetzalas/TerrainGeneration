@@ -21,6 +21,7 @@ add_executable(TerrainGeneration
     src/world/terrain_mesh.cpp
     src/world/camera.cpp
     src/generator/perlin.cpp
+    src/gfx/frustum.cpp
     src/gfx/opengl/renderer.cpp
     src/gfx/opengl/types/shader.cpp
     src/gfx/opengl/types/buffer.cpp

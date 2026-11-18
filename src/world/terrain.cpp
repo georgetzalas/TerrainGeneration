@@ -113,11 +113,28 @@ void World::Terrain::RenderChunkedTerrain()
     shader->Use();
     shader->SetMatrix44f("view", camera->GetViewMatrix());
     shader->SetMatrix44f("projection", camera->GetProjectionMatrix());
+    
+    if(frustumCulling)
+    {
+        frustum.SetCamera(*camera);
+    }
+
+    renderedChunks = 0;
 
     for(TerrainChunk* chunk : chunks)
     {
+        if(frustumCulling)
+        {
+            if(!frustum.IsAABBVisible(chunk->GetMin(), chunk->GetMax())) 
+            {
+                continue;
+            }
+        }
+
         shader->SetInt("chunkID", chunk->GetChunkID());
         chunk->Render(shader);
+        
+        renderedChunks++;
     }
 }
 
@@ -251,6 +268,16 @@ void World::Terrain::SetChunkZ(uint32_t chunkZ)
     this->chunkZ = chunkZ;
 }
 
+bool World::Terrain::GetFrustumCulling() const
+{
+    return frustumCulling;
+}
+
+void World::Terrain::SetFrustumCulling(bool frustumCulling)
+{
+    this->frustumCulling = frustumCulling;
+}
+
 double World::Terrain::GetGenerationTime() const
 {
     return generationTime;
@@ -259,6 +286,11 @@ double World::Terrain::GetGenerationTime() const
 double World::Terrain::GetRenderTime() const
 {
     return renderTime;
+}
+
+int World::Terrain::GetRenderedChunks() const
+{
+    return renderedChunks;
 }
 
 void World::Terrain::PrintTerrainValues() const

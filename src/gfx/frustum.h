@@ -12,7 +12,6 @@ namespace Gfx{
         ~Frustum();
         
         void SetCamera(const World::Camera& camera);
-        
         bool IsAABBVisible(const glm::vec3& min, const glm::vec3& max);
     
     private:
