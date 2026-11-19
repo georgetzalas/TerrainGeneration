@@ -18,6 +18,7 @@ Generator::PerlinNoise::~PerlinNoise()
 void Generator::PerlinNoise::GeneratePerlinNoise()
 {
     heights.clear();
+    heights.reserve(width * depth);
 
     const siv::PerlinNoise perlin{ seed };
     const double fx = (frequency / (double)width);
@@ -28,6 +29,7 @@ void Generator::PerlinNoise::GeneratePerlinNoise()
         for(int x = 0; x < width; ++x)
         {
             float height = perlin.octave2D_01((x * fx), (z * fz), octaves);
+            //float height = perlin.noise2D(x * fx, z * fz);
             heights.push_back(height);
         }
     }

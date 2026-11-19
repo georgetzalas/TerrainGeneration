@@ -13,3 +13,10 @@ double Core::Timer::Elapsed()
         std::chrono::steady_clock::now() - start
     ).count();
 }
+
+void Core::Timer::Elapsed(double& elapsed)
+{
+    elapsed = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start
+    ).count();
+}

@@ -118,10 +118,7 @@ void UI::UIManager::CreateUI()
             static bool frustumCulling = false;
             ImGui::Checkbox("Frustum Culling", &frustumCulling);
 
-            if(ImGui::Button("Apply"))
-            {
-                terrain->SetFrustumCulling(frustumCulling);
-            }
+            terrain->SetFrustumCulling(frustumCulling);
 
             ImGui::TreePop();
         }
@@ -173,7 +170,10 @@ void UI::UIManager::CreateUI()
                 ImGui::Text("Unknown terrain mode");
             }
 
-            //ImGui::Text(std::to_string(terrain->GetGenerationTime()).c_str());
+            double terrainGenerationTime = terrain->GetGenerationTime() / (double)1000;
+            double perlinTime            = terrain->GetPerlinTime() / (double)1000;
+            ImGui::Text(("Perlin Time: " + std::to_string(perlinTime) + "sec").c_str());
+            ImGui::Text(("Terrain Generation Time: " + std::to_string(terrainGenerationTime) + "sec").c_str());
             //ImGui::Text(std::to_string(terrain->GetRenderTime()).c_str());
 
             ImGui::TreePop();

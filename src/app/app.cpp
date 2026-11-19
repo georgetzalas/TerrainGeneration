@@ -27,16 +27,15 @@ void App::Run()
 
     while(Core::Window::GetInstance()->IsOpen())
     {
-        Core::Window::GetInstance()->Clear();
+        Core::Window::GetInstance()->ProcessEvents();
 
         Core::Input::GetInstance()->Update();
-
         terrain->Update();
-        terrain->Render();
 
+        Core::Window::GetInstance()->Clear();
+        terrain->Render();
         UI::UIManager::GetInstance()->Render();
 
-        Core::Window::GetInstance()->ProcessEvents();
         Core::Window::GetInstance()->SwapBuffers();
         TracyGpuCollect;
     }

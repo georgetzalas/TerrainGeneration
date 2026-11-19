@@ -5,6 +5,7 @@ option(TRACY_ENABLE "" ON)
 option(TRACY_ON_DEMAND "" ON)
 
 add_compile_options(-g)
+set(CMAKE_CXX_FLAGS "-O3")
 
 add_subdirectory(vendors/tracy)
 add_subdirectory(vendors/glfw)

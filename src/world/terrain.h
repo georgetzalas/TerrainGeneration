@@ -61,6 +61,7 @@ namespace World
         bool GetFrustumCulling() const;
         void SetFrustumCulling(bool frustumCulling);
 
+        double GetPerlinTime() const;
         double GetGenerationTime() const;
         double GetRenderTime() const;
         int GetRenderedChunks() const;
@@ -106,6 +107,7 @@ namespace World
         bool frustumCulling = false; 
 
         //Measurements
+        double perlinTime     = 0.0f;
         double generationTime = 0.0f;
         double renderTime     = 0.0f;
         int renderedChunks    = 0;
