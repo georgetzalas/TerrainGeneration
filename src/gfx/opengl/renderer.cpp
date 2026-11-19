@@ -55,8 +55,8 @@ void Gfx::OpenGL::Renderer::Render(const Shader* const shader, const Buffer* con
 
 Gfx::OpenGL::Renderer::Renderer()
 {
-    shaders.insert({"basic", new Shader("./res/shaders/basic.vs", "./res/shaders/basic.fs")});
-    shaders.insert({"chunkDebug", new Shader("./res/shaders/chunkDebug.vs", "./res/shaders/chunkDebug.fs")});
+    shaders.insert({"basic", new Shader("../res/shaders/basic.vs", "../res/shaders/basic.fs")});
+    shaders.insert({"chunkDebug", new Shader("../res/shaders/chunkDebug.vs", "../res/shaders/chunkDebug.fs")});
 }
 
 Gfx::OpenGL::Renderer::~Renderer()

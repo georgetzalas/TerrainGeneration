@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(TerrainGeneration C CXX)
 
-#add_compile_options(-g)
-#set(CMAKE_CXX_FLAGS "-O3")
-
 file(GLOB_RECURSE SOURCES
     src/main.cpp
     src/*/*.cpp
