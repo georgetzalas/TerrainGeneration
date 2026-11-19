@@ -27,6 +27,8 @@ World::Terrain::~Terrain()
 
 void World::Terrain::GenerateTerrain()
 {
+    //Generate perlin noise
+
     Core::Timer::Start();
     {
         ZoneScopedN("Perlin noise generation");
@@ -34,6 +36,11 @@ void World::Terrain::GenerateTerrain()
     }
     Core::Timer::Elapsed(perlinTime);
 
+    //Destroy previously generated terrains if created
+    DeleteMeshedTerrain();
+    DeleteChunkedTerrain();
+
+    //Create new terrain based on mode
     Core::Timer::Start();
 
     if(terrainMode == TerrainMode::CHUNKED)

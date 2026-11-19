@@ -1,13 +1,19 @@
 #include <generator/perlin.h>
 
+Generator::PerlinNoise::PerlinNoise()
+    :width(0), depth(0), previousWidth(0), previousDepth(0), seed(0), frequency(0), octaves(0)
+{
+}
+
 Generator::PerlinNoise::PerlinNoise(uint32_t width, uint32_t depth, double frequency, int octaves, uint32_t seed)
 {
-    this->width     = width;
-    this->depth     = depth;
-    this->seed      = seed;
-    this->frequency = frequency;
-    this->octaves   = octaves;
-    this->seed      = seed; 
+    this->width         = width;
+    this->depth         = depth;
+    this->previousWidth = width;
+    this->previousDepth = depth;
+    this->seed          = seed;
+    this->frequency     = frequency;
+    this->octaves       = octaves;
 }
 
 Generator::PerlinNoise::~PerlinNoise()
@@ -17,6 +23,12 @@ Generator::PerlinNoise::~PerlinNoise()
 
 void Generator::PerlinNoise::GeneratePerlinNoise()
 {
+    if(width <= previousWidth && depth <= previousDepth)
+        return;
+    
+    previousWidth = width;
+    previousDepth = depth;
+
     heights.clear();
     heights.reserve(width * depth);
 
@@ -29,7 +41,6 @@ void Generator::PerlinNoise::GeneratePerlinNoise()
         for(int x = 0; x < width; ++x)
         {
             float height = perlin.octave2D_01((x * fx), (z * fz), octaves);
-            //float height = perlin.noise2D(x * fx, z * fz);
             heights.push_back(height);
         }
     }

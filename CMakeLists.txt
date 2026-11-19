@@ -1,52 +1,55 @@
 cmake_minimum_required(VERSION 3.16)
 project(TerrainGeneration C CXX)
 
+#add_compile_options(-g)
+#set(CMAKE_CXX_FLAGS "-O3")
+
+file(GLOB_RECURSE SOURCES
+    src/main.cpp
+    src/*/*.cpp
+    src/*/*.c
+)
+
+add_library(glad STATIC vendors/glad/glad.c)
+target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/vendors/glad/include)
+
+add_library(stb STATIC vendors/stb/stb_image.c
+                       vendors/stb/stb_image_write.c)
+target_include_directories(stb PUBLIC ${CMAKE_SOURCE_DIR}/vendors/stb)
+
+add_library(imgui STATIC vendors/imgui/imgui.cpp
+                       vendors/imgui/imgui_demo.cpp
+                       vendors/imgui/imgui_draw.cpp
+                       vendors/imgui/backends/imgui_impl_glfw.cpp
+                       vendors/imgui/backends/imgui_impl_opengl3.cpp
+                       vendors/imgui/imgui_tables.cpp
+                       vendors/imgui/imgui_widgets.cpp)
+target_include_directories(imgui PUBLIC ${CMAKE_SOURCE_DIR}/vendors/imgui)
+
 option(TRACY_ENABLE "" ON)
 option(TRACY_ON_DEMAND "" ON)
 
-add_compile_options(-g)
-set(CMAKE_CXX_FLAGS "-O3")
-
 add_subdirectory(vendors/tracy)
+
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+
 add_subdirectory(vendors/glfw)
+
+set(GLM_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+
 add_subdirectory(vendors/glm)
 
-add_executable(TerrainGeneration
-    main.cpp
-    src/core/window.cpp
-    src/core/input.cpp
-    src/core/logger.cpp
-    src/core/timer.cpp
-    src/world/terrain.cpp
-    src/world/terrain_chunk.cpp
-    src/world/terrain_mesh.cpp
-    src/world/camera.cpp
-    src/generator/perlin.cpp
-    src/gfx/frustum.cpp
-    src/gfx/opengl/renderer.cpp
-    src/gfx/opengl/types/shader.cpp
-    src/gfx/opengl/types/buffer.cpp
-    src/gfx/opengl/types/texture.cpp
-    src/utils/util.cpp
-    src/ui/ui_manager.cpp
-    src/app/app.cpp
-    src/tile/tile_manager.cpp
-    vendors/imgui/imgui.cpp
-    vendors/imgui/imgui_demo.cpp
-    vendors/imgui/imgui_draw.cpp
-    vendors/imgui/backends/imgui_impl_glfw.cpp
-    vendors/imgui/backends/imgui_impl_opengl3.cpp
-    vendors/imgui/imgui_tables.cpp
-    vendors/imgui/imgui_widgets.cpp
-    vendors/glad/glad.c
-    vendors/stb/stb_image.c
-    vendors/stb/stb_image_write.c
-)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors)
-target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors/glad/include)
-target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors/imgui)
-target_link_libraries(TerrainGeneration PRIVATE glfw)
-target_link_libraries(TerrainGeneration PRIVATE glm::glm)
-target_link_libraries(TerrainGeneration PRIVATE Tracy::TracyClient)
+target_include_directories(TerrainGeneration PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendors/perlin)
+target_link_libraries(TerrainGeneration PRIVATE glfw
+                                                glm::glm
+                                                Tracy::TracyClient
+                                                glad
+                                                stb
+                                                imgui
+)
